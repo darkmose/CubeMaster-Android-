@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 23573030036137730}
   m_Layer: 8
   m_Name: SecondCube
-  m_TagString: MainCube
+  m_TagString: SecondCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,4 +202,8 @@ MonoBehaviour:
     m_Bits: 4294967035
   groundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 1024
+  Orig: {x: 0, y: 0, z: 0, w: 0}
+  Main: {fileID: 0}
+  Second: {fileID: 0}
+  game: {fileID: 0}

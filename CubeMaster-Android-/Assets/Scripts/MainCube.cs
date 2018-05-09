@@ -25,6 +25,7 @@ public class MainCube : MonoBehaviour
         Main = GameObject.Find("MainCube").gameObject;
         Second = Main.transform.Find("SecondCube").gameObject;
         Orig = Main.transform.rotation;
+        game.stars = new Stars();
     }
 
     private void Start()
@@ -244,6 +245,7 @@ public class MainCube : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         CheckEnd();
+        game.stars.ComputeCurr();
         canMove = true;
     }
 

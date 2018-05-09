@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameHandler : MonoBehaviour
 {
     public GameObject menu;
     public GameObject winScreen;
     CameraMove _camera;
-
+    public bool loadLevel = true;
+    public Stars stars;
+    public GameObject starsPanel;
     
     private void Start()
     {
@@ -15,7 +19,11 @@ public class GameHandler : MonoBehaviour
         GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
         GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBack(); });
         menu.SetActive(false);
-        LoadPrefabOnLevel();
+        if (loadLevel)
+        {
+            LoadPrefabOnLevel();
+        }
+        
     }
 
     public void ButtonBack()
@@ -78,9 +86,40 @@ public class GameHandler : MonoBehaviour
         winScreen.SetActive(false);
     }
 
+    IEnumerator InstStars()
+    {
+        for (int i = 0; i < starsPanel.transform.childCount; i++)
+        {
+            Destroy(starsPanel.transform.GetChild(i).gameObject);
+        }        
+        for (int i = 0; i < stars.GetResult(); i++)
+        {
+            GameObject newStar = Instantiate(Resources.Load<GameObject>("Prefabs/Star"), starsPanel.transform);
+            newStar.transform.localScale = Vector3.zero;
+            while (newStar.transform.localScale.x < 1)
+            {
+                newStar.transform.localScale += Vector3.one * 0.1f;
+                yield return new WaitForSeconds(0.01f);
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    void SaveResultInMemory()
+    {
+        FileStream fileStream = new FileStream("Data/saves.dss", FileMode.OpenOrCreate);
+        //fileStream;
+    }
+
     public void Win()
     {
         winScreen.SetActive(true);
+
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject.FindGameObjectWithTag("End").transform.Find("WinPart").GetChild(i).gameObject.SetActive(true);
+        }
+        StartCoroutine(InstStars());
     }
 
     public void RetryLevel()

@@ -23,8 +23,8 @@ public class CameraMove : MonoBehaviour
         {
             Vector3 _target = target.transform.position;
             _target.y = transform.position.y;
-            _target.x -= 2.5f;
-            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * 10);
+            _target.x -= 2f;
+            transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * 10);
         }
         catch (MissingReferenceException)
         {
@@ -42,6 +42,9 @@ public class CameraMove : MonoBehaviour
 
     void Update()
     {
-        Move();  
+        Move();
+        print(target);
+        print(target.transform.position);
+        print(target.transform.localPosition);
     }
 }
