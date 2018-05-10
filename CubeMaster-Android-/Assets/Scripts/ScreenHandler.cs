@@ -69,9 +69,8 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
     {
         swipeEnd = eventData.position;
         swipeDelta = swipeEnd - swipeBegin;
-        if (swipeDelta.magnitude > 50)
+        if (swipeDelta.magnitude > 30)
         {
-            print(swipeDelta.magnitude);
             if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
             {
                 if (swipeDelta.x > 0 && cubeScript.canMove)

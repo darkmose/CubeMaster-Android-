@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-public class LeveChooseHandler : MonoBehaviour
+[System.Serializable]
+public class LeveChooseHandler
 {
     public int LevelsCount;
     public string LevelTypeName;
-    public int LevelsIndex;
+    public int Index;
+    public Texture2D image;
 }
