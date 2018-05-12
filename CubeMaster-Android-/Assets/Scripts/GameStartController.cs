@@ -18,7 +18,7 @@ public class GameStartController : MonoBehaviour
     int currentLevel = 0;
     public LeveChooseHandler[] levels = new LeveChooseHandler[4];
     public Texture2D defaultNull;
-
+    public GameObject mainCube;
 
     public void StartGame(string level, int indexScene, string name)
     {
@@ -30,7 +30,7 @@ public class GameStartController : MonoBehaviour
     public void LevelType()
     {
         mainMenu.SetActive(false);
-        GameObject.FindGameObjectWithTag("MainCube").SetActive(false);
+        mainCube.SetActive(false);
         chooseLevelTypeMenu.SetActive(true);
         currentLevel = 0;
         TypeStartButton.enabled = true;
@@ -68,13 +68,12 @@ public class GameStartController : MonoBehaviour
                 optionsMenu.SetActive(false);
                 mainMenu.SetActive(true);
             }
-            else
+            else if (chooseLevelTypeMenu.activeSelf)
             {
                 chooseLevelTypeMenu.SetActive(false);
-                GameObject.FindGameObjectWithTag("MainCube").SetActive(true);
+                mainCube.SetActive(true);
                 mainMenu.SetActive(true);
             }
-
         }
     }
 
