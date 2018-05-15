@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
 
 public class GameHandler : MonoBehaviour
 {
@@ -12,21 +11,21 @@ public class GameHandler : MonoBehaviour
     public bool loadLevel = true;
     public Stars stars;
     public GameObject starsPanel;
-    
+
     private void Start()
     {
         _camera = GameObject.Find("Main Camera").GetComponent<CameraMove>();
         GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBack(); });
+        GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBackCube(); });
         menu.SetActive(false);
         if (loadLevel)
         {
-            LoadPrefabOnLevel();
-        }
-        
+            string level = LevelManager.currentIndexLocation.ToString() +"-"+ LevelManager.currentLevel.ToString();
+            LoadPrefabOnLevel(level);
+        }        
     }
 
-    public void ButtonBack()
+    public void ButtonBackCube()
     {
 		if(!winScreen.activeSelf)
 		{
@@ -45,11 +44,11 @@ public class GameHandler : MonoBehaviour
 		}
     }
 
-    public void LoadPrefabOnLevel()
+    public void LoadPrefabOnLevel(string prefabName)
     {
         try
         {
-            Instantiate(Resources.Load<GameObject>("LevelPrefabs/" + PlayerPrefs.GetString("LevelPrefabId")));
+            Instantiate(Resources.Load<GameObject>("LevelPrefabs/" + prefabName));
         }
         catch (System.NullReferenceException)
         {
@@ -62,26 +61,11 @@ public class GameHandler : MonoBehaviour
     }
 
     public void NextLevel()
-    {
-        int level;
-        int index;
-        string LevelName;
-
-        string str = PlayerPrefs.GetString("LevelPrefabId");
-
-        index = System.Convert.ToInt32(str[0].ToString());
-
-        if (str.Length == 3)
-            level = System.Convert.ToInt32(str[2].ToString()) + 1;
-        else
-            level = System.Convert.ToInt32(str[2].ToString() + str[3].ToString()) + 1;
-
-        LevelName = index.ToString() + "-" + level.ToString();
+    {    
         Destroy(GameObject.FindGameObjectWithTag("Level"));
-        
-        PlayerPrefs.SetString("LevelPrefabId", LevelName);
-        print(PlayerPrefs.GetString("LevelPrefabId"));
-        LoadPrefabOnLevel();
+        LevelManager.currentLevel++;
+        string prefabName = LevelManager.currentIndexLocation.ToString() + "-" + (LevelManager.currentLevel).ToString();
+        LoadPrefabOnLevel(prefabName);
 		GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
         winScreen.SetActive(false);
     }
@@ -99,16 +83,10 @@ public class GameHandler : MonoBehaviour
             while (newStar.transform.localScale.x < 1)
             {
                 newStar.transform.localScale += Vector3.one * 0.1f;
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.005f);
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
-    }
-
-    void SaveResultInMemory()
-    {
-        FileStream fileStream = new FileStream("Data/saves.dss", FileMode.OpenOrCreate);
-        //fileStream;
     }
 
     public void Win()
@@ -120,12 +98,26 @@ public class GameHandler : MonoBehaviour
             GameObject.FindGameObjectWithTag("End").transform.Find("WinPart").GetChild(i).gameObject.SetActive(true);
         }
         StartCoroutine(InstStars());
+
+        SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel] = (byte)stars.GetResult();
+
+        if (LevelManager.currentLevel < LevelManager.currentMaxLevels)
+        {
+            SaveManager.MaxAviableLevelOnLocation[LevelManager.currentIndexLocation, LevelManager.currentLevel + 1] = 1;
+        }
+        if (LevelManager.currentLevel == LevelManager.currentMaxLevels)
+        {
+            SaveManager.IndexOfMaxAviableLocation = System.Convert.ToByte(LevelManager.currentIndexLocation + 1);
+            winScreen.transform.Find("Panel").Find("NextLevel").GetComponent<Button>().interactable = false;
+        }
     }
 
     public void RetryLevel()
     {
         Destroy(GameObject.FindGameObjectWithTag("Level"));
-        Instantiate<GameObject>(Resources.Load<GameObject>("LevelPrefabs/" + PlayerPrefs.GetString("LevelPrefabId")));
+        string levelName = LevelManager.currentIndexLocation.ToString() + LevelManager.currentLevel.ToString();
+        LoadPrefabOnLevel(levelName);
+        GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
         winScreen.SetActive(false);
     }
 
@@ -133,7 +125,8 @@ public class GameHandler : MonoBehaviour
     {
         Time.timeScale = 0;
         menu.SetActive(true);
-        menu.transform.Find("levelName").GetComponent<Text>().text = PlayerPrefs.GetString("levelName");
+        string levelName = LevelManager.currentLevelName + "\n" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString();
+        menu.transform.Find("Buttons").Find("levelName").GetComponent<Text>().text = levelName;
     }
 
     public void CloseGameMenu()

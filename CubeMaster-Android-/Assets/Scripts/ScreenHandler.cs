@@ -35,8 +35,11 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
 
             zoomDelta = Vector2.Distance(finger1, finger2) - distance;
 
-            mainCamera.transform.position = Vector2.MoveTowards(mainCamera.transform.position, (GameObject.FindGameObjectWithTag("MainCube").transform.position - mainCamera.transform.position).normalized * zoomDelta, Time.deltaTime * 10);
+            Vector3 target = (GameObject.FindGameObjectWithTag("MainCube").transform.position - mainCamera.transform.position).normalized;
+            target.x = mainCamera.transform.position.x;
+            target.z = mainCamera.transform.position.z;
 
+            mainCamera.transform.position = Vector2.MoveTowards(mainCamera.transform.position, target * zoomDelta, Time.deltaTime * 10);
             distance = Vector2.Distance(finger1, finger2);
         }
         else
@@ -44,8 +47,7 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
            distance = 0;
         }
     }
-
-
+    
 
     void Update()
     {

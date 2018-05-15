@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameStartController : MonoBehaviour
 {
-
     public GameObject mainMenu;
     public GameObject chooseLevelTypeMenu;
     public GameObject chooseLevelNumberPanel;
@@ -19,14 +20,69 @@ public class GameStartController : MonoBehaviour
     public LeveChooseHandler[] levels = new LeveChooseHandler[4];
     public Texture2D defaultNull;
     public GameObject mainCube;
+    public int MaxLevels = 12;
+    SaveData save;
+    string path;
+    public int countLocations = 4;
 
-    public void StartGame(string level, int indexScene, string name)
+    private void Start()
     {
-        PlayerPrefs.SetString("LevelPrefabId", level);
-        PlayerPrefs.SetString("levelName", name);
-        SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
+        if (!Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/");
+        }
+        path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
+
+        if (PlayerPrefs.HasKey("Quality"))
+        {
+            QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"), false);
+        }
+       
+
+        if (File.Exists(path))
+        {
+            if (SaveManager.canReadWrite)
+            {
+                using (FileStream fs = File.Open(path, FileMode.Open))
+                {
+                    BinaryFormatter binary = new BinaryFormatter();
+                    save = (SaveData)binary.Deserialize(fs);
+                    SaveManager.IndexOfMaxAviableLocation = save.IndexOfMaxAviableLocation;
+                    SaveManager.MaxAviableLevelOnLocation = save.MaxAviableLevelOnLocation;
+                    SaveManager.scorePerLevels = save.scorePerLevels;
+                    fs.Close();
+                    SaveManager.canReadWrite = false;
+
+                }
+            }            
+        }
+        else if(SaveManager.canReadWrite)
+        {
+            save = new SaveData(levels.Length,MaxLevels);
+
+            save.IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation;
+            save.MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation;
+            save.scorePerLevels = SaveManager.scorePerLevels;
+
+            using (FileStream fs = File.Open(path, FileMode.CreateNew))
+            {
+                BinaryFormatter binary = new BinaryFormatter();
+                binary.Serialize(fs, save);
+                fs.Close();
+            }
+        }
     }
 
+    public void StartGame(int _сlevel, int indexScene, string name, int countLevels)
+    {
+        LevelManager.currentMaxLevels = countLevels;
+        LevelManager.currentLevel = _сlevel;
+        print(LevelManager.currentLevel);
+        LevelManager.currentIndexLocation = indexScene;
+        LevelManager.currentLevelName = name;
+        SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
+    }
+    
     public void LevelType()
     {
         mainMenu.SetActive(false);
@@ -36,7 +92,6 @@ public class GameStartController : MonoBehaviour
         TypeStartButton.enabled = true;
         levelTypeText.text = levels[currentLevel].LevelTypeName;
         chooseLevelTypeMenu.transform.Find("CubeLevel").GetComponent<Renderer>().material.mainTexture = levels[0].image;
-
     }
 
     public void OptionsMenu()
@@ -92,22 +147,37 @@ public class GameStartController : MonoBehaviour
             Destroy(chooseLevelNumberPanel.transform.GetChild(0).GetChild(i).gameObject);
         }
 
-        for (int i = 0; i < levels[currentLevel].LevelsCount; i++)
+        for (int k = 0; k < levels[currentLevel].LevelsCount; k++)
         {
             GameObject number = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Number"), chooseLevelNumberPanel.transform.Find("LevelNumbers"));
-            number.transform.GetChild(0).GetComponent<Text>().text = (i + 1).ToString();
-            string nameLevel = levels[currentLevel].Index.ToString() + "-" + (i + 1).ToString();
-            number.GetComponent<Button>().onClick.AddListener(delegate () { StartGame(nameLevel, levels[currentLevel].Index, levels[currentLevel].LevelTypeName); });
+            number.transform.GetChild(0).GetComponent<Text>().text = (k + 1).ToString();
+            number.GetComponent<Button>().onClick.RemoveAllListeners();
+            int clevel = k + 1;
+
+            number.GetComponent<Button>().onClick.AddListener(delegate () { StartGame(clevel, levels[currentLevel].Index, levels[currentLevel].LevelTypeName, levels[currentLevel].LevelsCount); });
+            if (SaveManager.scorePerLevels[levels[currentLevel].Index, k + 1] != 0)
+            {
+                for (byte j = 0; j < SaveManager.scorePerLevels[levels[currentLevel].Index, k + 1]; j++)
+                {
+                    Instantiate(Resources.Load<GameObject>("Prefabs/Star"), number.transform.Find("PanelStars"));
+                }                
+            }           
+
+            if (SaveManager.MaxAviableLevelOnLocation[levels[currentLevel].Index , k + 1] == 0)
+            {
+                number.GetComponent<Button>().interactable = false;
+            }
         }
         chooseLevelNumberPanel.transform.Find("levelName").GetComponent<Text>().text = levels[currentLevel].LevelTypeName;
         chooseLevelNumberPanel.transform.Find("levelNameB").GetComponent<Text>().text = levels[currentLevel].LevelTypeName;
-        chooseLevelTypeMenu.transform.Find("CubeLevel").gameObject.SetActive(false);
-        chooseLevelTypeMenu.transform.Find("Prev").gameObject.SetActive(false);
-        chooseLevelTypeMenu.transform.Find("Next").gameObject.SetActive(false);
-        chooseLevelTypeMenu.transform.Find("Start").gameObject.SetActive(false);
-        chooseLevelTypeMenu.transform.Find("Text").gameObject.SetActive(false);
-        chooseLevelNumberPanel.SetActive(true);
-
+        {
+            chooseLevelTypeMenu.transform.Find("CubeLevel").gameObject.SetActive(false);
+            chooseLevelTypeMenu.transform.Find("Prev").gameObject.SetActive(false);
+            chooseLevelTypeMenu.transform.Find("Next").gameObject.SetActive(false);
+            chooseLevelTypeMenu.transform.Find("Start").gameObject.SetActive(false);
+            chooseLevelTypeMenu.transform.Find("Text").gameObject.SetActive(false);
+            chooseLevelNumberPanel.SetActive(true);
+        }
     }
 
     void Back()
@@ -120,9 +190,28 @@ public class GameStartController : MonoBehaviour
             }
             else
             {
+                SaveAllData();
                 Application.Quit();
             }
         }
+    }
+
+    void SaveAllData()
+    {
+        save = new SaveData
+        {
+            IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation,
+            MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation,
+            scorePerLevels = SaveManager.scorePerLevels
+        };
+
+        using (FileStream fs = File.Open(path, FileMode.Create))
+        {
+            BinaryFormatter binary = new BinaryFormatter();
+            binary.Serialize(fs, save);
+            fs.Close();
+        }
+        SaveManager.canReadWrite = true;
     }
 
     IEnumerator RotateY(Quaternion angle)
@@ -160,7 +249,7 @@ public class GameStartController : MonoBehaviour
     {
         if (!rotateCube)
         {
-            if (currentLevel < 3)
+            if (currentLevel < countLocations-1)
             {
                 currentLevel++;
             }
@@ -186,7 +275,7 @@ public class GameStartController : MonoBehaviour
             }
             else
             {
-                currentLevel = 3;
+                currentLevel = countLocations - 1;
             }
             ChangeLevelType(currentLevel);
 
@@ -201,15 +290,26 @@ public class GameStartController : MonoBehaviour
         {
             if (levels[levelType] != null)
             {
-                TypeStartButton.enabled = true;
-                levelTypeText.text = levels[levelType].LevelTypeName;
-                StartCoroutine(ChangeLevel(levels[currentLevel].image));
+                
+                if (levels[levelType].Index <= SaveManager.IndexOfMaxAviableLocation)
+                {
+                    TypeStartButton.interactable = true;
+                    levelTypeText.text = levels[levelType].LevelTypeName;
+                    StartCoroutine(ChangeLevel(levels[currentLevel].image));
+                }
+                else
+                {
+                    TypeStartButton.interactable = false;
+                    levelTypeText.text = "LOCKED";
+                    StartCoroutine(ChangeLevel(levels[levelType].image));
+                }
+
             }
         }
         catch (System.IndexOutOfRangeException)
         {
-            TypeStartButton.enabled = false;
-            levelTypeText.text = "LOCK";
+            TypeStartButton.interactable = false;
+            levelTypeText.text = "SOON";
             StartCoroutine(ChangeLevel(defaultNull));
         }
        

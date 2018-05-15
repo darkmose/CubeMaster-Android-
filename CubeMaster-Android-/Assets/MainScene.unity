@@ -1172,6 +1172,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 485109138}
+  - component: {fileID: 485109140}
+  - component: {fileID: 485109139}
   m_Layer: 0
   m_Name: LevelNumbers
   m_TagString: Untagged
@@ -1189,6 +1191,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1786294713}
   - {fileID: 1556135237}
   - {fileID: 1842212097}
   - {fileID: 1340095133}
@@ -1201,6 +1204,39 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &485109139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 485109137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.897}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: d623b656f49665244ab73486497c4c68, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &485109140
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 485109137}
 --- !u!1 &511485448
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,7 +2939,7 @@ RectTransform:
   m_LocalScale: {x: 0.48799995, y: 0.48799995, z: 0.48799995}
   m_Children: []
   m_Father: {fileID: 485109138}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.12900001, y: 0.56250006}
   m_AnchorMax: {x: 0.8707501, y: 0.74625003}
@@ -3045,7 +3081,7 @@ RectTransform:
   m_LocalScale: {x: 0.48799998, y: 0.48799998, z: 0.48799998}
   m_Children: []
   m_Father: {fileID: 485109138}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.09158333, y: 0.55125004}
   m_AnchorMax: {x: 0.90000004, y: 0.74625003}
@@ -3406,10 +3442,10 @@ RectTransform:
   m_Father: {fileID: 1585225198}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.04509887, y: 0.9102938}
-  m_AnchorMax: {x: 0.1404322, y: 0.9777938}
-  m_AnchoredPosition: {x: 0.3000183, y: 0.5}
-  m_SizeDelta: {x: 1.1000004, y: 1.3000002}
+  m_AnchorMin: {x: 0.045, y: 0.8915}
+  m_AnchorMax: {x: 0.1404322, y: 0.9527501}
+  m_AnchoredPosition: {x: 0.54999995, y: 0.5}
+  m_SizeDelta: {x: 1.0999999, y: -0.69000053}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1518791799
 MonoBehaviour:
@@ -3593,7 +3629,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 485109138}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.09158333, y: 0}
   m_AnchorMax: {x: 1, y: 0.5112501}
@@ -4083,6 +4119,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1744442087}
+--- !u!1 &1786294712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1786294713}
+  - component: {fileID: 1786294715}
+  - component: {fileID: 1786294714}
+  m_Layer: 0
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1786294713
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786294712}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 485109138}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 480, y: 800}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1786294714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786294712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: be9ed870097ded64787b1a2912b2ea51, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1786294715
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1786294712}
 --- !u!1 &1788991056
 GameObject:
   m_ObjectHideFlags: 0
@@ -4590,7 +4694,7 @@ RectTransform:
   m_LocalScale: {x: 0.4871571, y: 0.48715714, z: 0.48715714}
   m_Children: []
   m_Father: {fileID: 485109138}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.12900001, y: 0.70875}
   m_AnchorMax: {x: 0.8707501, y: 0.88500005}
@@ -4932,8 +5036,14 @@ MonoBehaviour:
     LevelTypeName: FOREST
     Index: 1
     image: {fileID: 2800000, guid: 1b52ae00a96757c4399d27248ddade5c, type: 3}
+  - LevelsCount: 0
+    LevelTypeName: POLY WORLD
+    Index: 2
+    image: {fileID: 2800000, guid: 1d2e57a2b3325bc4b82dd0858916a65f, type: 3}
   defaultNull: {fileID: 2800000, guid: f13f70b3060f8e94b8f6a77eb54b2b09, type: 3}
   mainCube: {fileID: 1112275453}
+  MaxLevels: 12
+  countLocations: 4
 --- !u!4 &2141427427
 Transform:
   m_ObjectHideFlags: 0

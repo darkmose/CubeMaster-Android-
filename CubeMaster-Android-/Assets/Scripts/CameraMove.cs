@@ -43,8 +43,5 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         Move();
-        print(target);
-        print(target.transform.position);
-        print(target.transform.localPosition);
     }
 }

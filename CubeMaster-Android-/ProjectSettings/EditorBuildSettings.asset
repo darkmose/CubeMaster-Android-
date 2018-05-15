@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GamePacks/Forest/level.unity
     guid: fbd3729694065c742ba44192053c13cb
+  - enabled: 1
+    path: Assets/GamePacks/Polygonal/Polygonal.unity
+    guid: 97dd8d696f0ec644383a640273f136e8
