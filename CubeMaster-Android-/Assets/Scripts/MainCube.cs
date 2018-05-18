@@ -8,6 +8,8 @@ public class MainCube : MonoBehaviour
 
     [HideInInspector]
     public bool canMove = true;
+    [HideInInspector]
+    public bool isRotate = false;
     public LayerMask mask, secondMask, groundMask;
 
     public Quaternion Orig;
@@ -22,8 +24,8 @@ public class MainCube : MonoBehaviour
     private void Awake()
     {
         game = GameObject.Find("GameHandler").GetComponent<GameHandler>();
-        Main = GameObject.Find("MainCube").gameObject;
-        Second = Main.transform.Find("SecondCube").gameObject;
+        Main = GameObject.FindGameObjectWithTag("MainCube").gameObject;
+        Second = GameObject.FindGameObjectWithTag("SecondCube").gameObject;
         Orig = Main.transform.rotation;
         game.stars = new Stars();
     }
@@ -39,10 +41,10 @@ public class MainCube : MonoBehaviour
     }
 	
 	
-	public void RefreshCube()
-	{
-		Awake();		
-	}
+	//public void RefreshCube()
+	//{
+	//	Awake();		
+	//}
 	
 	
     public void ChangeCube(GameObject _main, GameObject _second)
@@ -59,14 +61,16 @@ public class MainCube : MonoBehaviour
 
     private void Move() //delete after
     {
-        if ((Input.GetButtonDown("Horizontal") || Input.GetButton("Horizontal")) && canMove)
+        if ((Input.GetButtonDown("Horizontal") || Input.GetButton("Horizontal")) && canMove && !isRotate)
         {
             canMove = false;
+            isRotate = true;
             string side = (Input.GetAxisRaw("Horizontal") > 0) ? "right" : "left";
             Moving(side);
         }
-        if ((Input.GetButtonDown("Vertical") || Input.GetButton("Vertical")) && canMove)
+        if ((Input.GetButtonDown("Vertical") || Input.GetButton("Vertical")) && canMove && !isRotate)
         {
+            isRotate = true;
             canMove = false;
             string side = (Input.GetAxisRaw("Vertical") > 0) ? "up" : "down";
             Moving(side);
@@ -176,6 +180,8 @@ public class MainCube : MonoBehaviour
 
 
         canMove = true;
+        isRotate = false;
+
         return;
     }
 
@@ -227,14 +233,12 @@ public class MainCube : MonoBehaviour
 
     IEnumerator MoveHelper(Vector3 target)
     {
-
-
         for (; Main.transform.position != target;)
         {
             Main.transform.position = Vector3.MoveTowards(Main.transform.position, target, Time.deltaTime * speed);
             yield return new WaitForFixedUpdate();
         }
-
+        canMove = true;
     }
 
     IEnumerator RotateHelper(Quaternion rotate)
@@ -244,9 +248,10 @@ public class MainCube : MonoBehaviour
             Main.transform.rotation = Quaternion.RotateTowards(Main.transform.rotation, rotate, Time.deltaTime * speed * 90);
             yield return new WaitForFixedUpdate();
         }
+        
         CheckEnd();
         game.stars.ComputeCurr();
-        canMove = true;
+        isRotate = false;
     }
 
     private void Update()
