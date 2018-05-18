@@ -7,14 +7,12 @@ public class GameHandler : MonoBehaviour
 {
     public GameObject menu;
     public GameObject winScreen;
-    CameraMove _camera;
     public bool loadLevel = true;
     public Stars stars;
     public GameObject starsPanel;
 
     private void Start()
     {
-        _camera = GameObject.Find("Main Camera").GetComponent<CameraMove>();
         GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
         GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBackCube(); });
         menu.SetActive(false);
@@ -66,7 +64,7 @@ public class GameHandler : MonoBehaviour
         LevelManager.currentLevel++;
         string prefabName = LevelManager.currentIndexLocation.ToString() + "-" + (LevelManager.currentLevel).ToString();
         LoadPrefabOnLevel(prefabName);
-		GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
+		//GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
         winScreen.SetActive(false);
     }
 
@@ -99,15 +97,30 @@ public class GameHandler : MonoBehaviour
         }
         StartCoroutine(InstStars());
 
-        SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel] = (byte)stars.GetResult();
+        
+
+        if (SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel] != 0)
+        {
+            if (stars.GetResult() > SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel])
+            {
+                SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel] = stars.GetResult();
+            }
+        }
+        else
+        {
+            SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel] = stars.GetResult();
+        }
 
         if (LevelManager.currentLevel < LevelManager.currentMaxLevels)
         {
-            SaveManager.MaxAviableLevelOnLocation[LevelManager.currentIndexLocation, LevelManager.currentLevel + 1] = 1;
+            SaveManager.MaxAviableLevelOnLocation[LevelManager.currentIndexLocation, (LevelManager.currentLevel + 1)] = 1;
         }
+
         if (LevelManager.currentLevel == LevelManager.currentMaxLevels)
         {
-            SaveManager.IndexOfMaxAviableLocation = System.Convert.ToByte(LevelManager.currentIndexLocation + 1);
+            SaveManager.IndexOfMaxAviableLocation = LevelManager.currentIndexLocation + 1;
+            SaveManager.MaxAviableLevelOnLocation[SaveManager.IndexOfMaxAviableLocation, 1] = 1;
+
             winScreen.transform.Find("Panel").Find("NextLevel").GetComponent<Button>().interactable = false;
         }
     }
@@ -117,7 +130,7 @@ public class GameHandler : MonoBehaviour
         Destroy(GameObject.FindGameObjectWithTag("Level"));
         string levelName = LevelManager.currentIndexLocation.ToString() + LevelManager.currentLevel.ToString();
         LoadPrefabOnLevel(levelName);
-        GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
+     //   GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
         winScreen.SetActive(false);
     }
 

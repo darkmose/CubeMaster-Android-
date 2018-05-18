@@ -19,7 +19,7 @@ public class Stars
 
     public int GetResult()
     {
-        int res = (int)((float)countCur / (float)countAll*75);
+        int res = (int)((float)countCur / (float)countAll*70);
 
         if (res >= 70)
         {
