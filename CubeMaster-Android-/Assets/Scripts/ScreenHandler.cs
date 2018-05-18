@@ -39,7 +39,7 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
             target.x = mainCamera.transform.position.x;
             target.z = mainCamera.transform.position.z;
 
-            mainCamera.transform.position = Vector2.MoveTowards(mainCamera.transform.position, target * zoomDelta, Time.deltaTime * 25);
+            mainCamera.transform.position = Vector2.MoveTowards(mainCamera.transform.position, target * zoomDelta, Time.deltaTime * 10);
             distance = Vector2.Distance(finger1, finger2);
         }
         else
@@ -71,39 +71,38 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
     {
         swipeEnd = eventData.position;
         swipeDelta = swipeEnd - swipeBegin;
-        if (swipeDelta.magnitude > 25)
+        if (swipeDelta.magnitude > 30)
         {
             if (Mathf.Abs(swipeDelta.x) > Mathf.Abs(swipeDelta.y))
             {
-                if (swipeDelta.x > 0 && cubeScript.canMove && !cubeScript.isRotate)
+                if (swipeDelta.x > 0 && cubeScript.canMove)
                 {
-                    cubeScript.isRotate = true;
                     cubeScript.canMove = false;
-
+                    print("Horizontal");
                     string side = "right";
                     cubeScript.Moving(side);
                 }
-                else if (swipeDelta.x < 0 && cubeScript.canMove && !cubeScript.isRotate)
+                else if (swipeDelta.x < 0 && cubeScript.canMove)
                 {
-                    cubeScript.isRotate = true;
                     cubeScript.canMove = false;
+                    print("Horizontal");
                     string side = "left";
                     cubeScript.Moving(side);
                 }
             }
             else
             {
-                if (swipeDelta.y > 0 && cubeScript.canMove && !cubeScript.isRotate)
+                if (swipeDelta.y > 0 && cubeScript.canMove)
                 {
-                    cubeScript.isRotate = true;
                     cubeScript.canMove = false;
+                    print("Vertical");
                     string side = "up";
                     cubeScript.Moving(side);
                 }
-                else if (swipeDelta.y < 0 && cubeScript.canMove && !cubeScript.isRotate)
+                else if (swipeDelta.y < 0 && cubeScript.canMove)
                 {
-                    cubeScript.isRotate = true;
                     cubeScript.canMove = false;
+                    print("Vertical");
                     string side = "down";
                     cubeScript.Moving(side);
                 }

@@ -16,7 +16,6 @@ public class GameStartController : MonoBehaviour
     public Button TypeStartButton;
     private Material cube;
     bool rotateCube = false;
-    bool changeImage = false;
     int currentLevel = 0;
     public LeveChooseHandler[] levels = new LeveChooseHandler[4];
     public Texture2D defaultNull;
@@ -53,24 +52,23 @@ public class GameStartController : MonoBehaviour
                     SaveManager.scorePerLevels = save.scorePerLevels;
                     fs.Close();
                     SaveManager.canReadWrite = false;
+
                 }
             }            
         }
         else if(SaveManager.canReadWrite)
         {
-            save = new SaveData(countLocations, MaxLevels)
-            {
-                IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation,
-                MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation,
-                scorePerLevels = SaveManager.scorePerLevels
-            };
+            save = new SaveData(levels.Length,MaxLevels);
+
+            save.IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation;
+            save.MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation;
+            save.scorePerLevels = SaveManager.scorePerLevels;
 
             using (FileStream fs = File.Open(path, FileMode.CreateNew))
             {
                 BinaryFormatter binary = new BinaryFormatter();
                 binary.Serialize(fs, save);
                 fs.Close();
-                SaveManager.canReadWrite = false;
             }
         }
     }
@@ -79,9 +77,9 @@ public class GameStartController : MonoBehaviour
     {
         LevelManager.currentMaxLevels = countLevels;
         LevelManager.currentLevel = _сlevel;
+        print(LevelManager.currentLevel);
         LevelManager.currentIndexLocation = indexScene;
         LevelManager.currentLevelName = name;
-        print(LevelManager.currentLevel);
         SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
     }
     
@@ -151,32 +149,27 @@ public class GameStartController : MonoBehaviour
 
         for (int k = 0; k < levels[currentLevel].LevelsCount; k++)
         {
-            int clevel = (k + 1);
-
             GameObject number = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Number"), chooseLevelNumberPanel.transform.Find("LevelNumbers"));
-            number.transform.GetChild(0).GetComponent<Text>().text = clevel.ToString();
+            number.transform.GetChild(0).GetComponent<Text>().text = (k + 1).ToString();
             number.GetComponent<Button>().onClick.RemoveAllListeners();
-
-            
+            int clevel = k + 1;
 
             number.GetComponent<Button>().onClick.AddListener(delegate () { StartGame(clevel, levels[currentLevel].Index, levels[currentLevel].LevelTypeName, levels[currentLevel].LevelsCount); });
-
-            print(SaveManager.scorePerLevels[levels[currentLevel].Index, clevel]);
-
-            if (SaveManager.scorePerLevels[levels[currentLevel].Index, clevel] != 0)
+            if (SaveManager.scorePerLevels[levels[currentLevel].Index, k + 1] != 0)
             {
-                for (byte j = 0; j < SaveManager.scorePerLevels[levels[currentLevel].Index, clevel]; j++)
+                for (byte j = 0; j < SaveManager.scorePerLevels[levels[currentLevel].Index, k + 1]; j++)
                 {
                     Instantiate(Resources.Load<GameObject>("Prefabs/Star"), number.transform.Find("PanelStars"));
                 }                
             }           
 
-            if (SaveManager.MaxAviableLevelOnLocation[levels[currentLevel].Index , clevel] == 0)
+            if (SaveManager.MaxAviableLevelOnLocation[levels[currentLevel].Index , k + 1] == 0)
             {
                 number.GetComponent<Button>().interactable = false;
             }
         }
         chooseLevelNumberPanel.transform.Find("levelName").GetComponent<Text>().text = levels[currentLevel].LevelTypeName;
+        chooseLevelNumberPanel.transform.Find("levelNameB").GetComponent<Text>().text = levels[currentLevel].LevelTypeName;
         {
             chooseLevelTypeMenu.transform.Find("CubeLevel").gameObject.SetActive(false);
             chooseLevelTypeMenu.transform.Find("Prev").gameObject.SetActive(false);
@@ -226,37 +219,35 @@ public class GameStartController : MonoBehaviour
         rotateCube = true;
         while (levelCube.transform.rotation != angle)
         {
-            levelCube.transform.rotation = Quaternion.RotateTowards(levelCube.transform.rotation, angle, Time.fixedDeltaTime * 200);
-            yield return new WaitForFixedUpdate();
+            levelCube.transform.rotation = Quaternion.RotateTowards(levelCube.transform.rotation, angle, Time.deltaTime * 200);
+            yield return null;
         }
         rotateCube = false;
     }
     IEnumerator ChangeLevel(Texture2D newTexture)
     {
-        changeImage = true;
+
         cube = chooseLevelTypeMenu.transform.Find("CubeLevel").GetComponent<Renderer>().material;
 
         while (cube.color.a != 0)
         {        
-            cube.color = new Color(cube.color.r, cube.color.g, cube.color.b, Mathf.Clamp01(cube.color.a-0.5f));
-            yield return new WaitForFixedUpdate();
+            cube.color = new Color(1, 1, 1, Mathf.Clamp01(cube.color.a-0.7f));
+            yield return null;
         }
 
         cube.mainTexture = newTexture;
 
         while (cube.color.a != 1)
         {
-            cube.color = new Color(cube.color.r, cube.color.g, cube.color.b, Mathf.Clamp01(cube.color.a + 0.5f));
-            yield return new WaitForFixedUpdate();
+            cube.color = new Color(1, 1, 1, Mathf.Clamp01(cube.color.a + 0.055f));
+            yield return null;
         }
-        changeImage = false;
-
     }
 
 
     public void NextTypeLevel()
     {
-        if (!rotateCube && !changeImage)
+        if (!rotateCube)
         {
             if (currentLevel < countLocations-1)
             {
@@ -302,14 +293,12 @@ public class GameStartController : MonoBehaviour
                 
                 if (levels[levelType].Index <= SaveManager.IndexOfMaxAviableLocation)
                 {
-                    chooseLevelTypeMenu.transform.Find("Lock").gameObject.GetComponent<Image>().enabled = false;
                     TypeStartButton.interactable = true;
                     levelTypeText.text = levels[levelType].LevelTypeName;
                     StartCoroutine(ChangeLevel(levels[currentLevel].image));
                 }
                 else
                 {
-                    chooseLevelTypeMenu.transform.Find("Lock").gameObject.GetComponent<Image>().enabled = true;
                     TypeStartButton.interactable = false;
                     levelTypeText.text = "LOCKED";
                     StartCoroutine(ChangeLevel(levels[levelType].image));
@@ -319,7 +308,6 @@ public class GameStartController : MonoBehaviour
         }
         catch (System.IndexOutOfRangeException)
         {
-            chooseLevelTypeMenu.transform.Find("Lock").gameObject.GetComponent<Image>().enabled = true;
             TypeStartButton.interactable = false;
             levelTypeText.text = "SOON";
             StartCoroutine(ChangeLevel(defaultNull));

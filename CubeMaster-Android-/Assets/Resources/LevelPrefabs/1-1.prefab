@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 23987621579382392}
   m_Layer: 8
   m_Name: SecondCube
-  m_TagString: SecondCube
+  m_TagString: MainCube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

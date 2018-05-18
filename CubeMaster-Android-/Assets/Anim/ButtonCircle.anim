@@ -20,18 +20,24 @@ AnimationClip:
         time: 0
         value: {x: 0, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 60}
+        outSlope: {x: 0, y: 0, z: -40}
         tangentMode: 0
       - serializedVersion: 2
-        time: 6
-        value: {x: 0, y: 0, z: 360}
-        inSlope: {x: -0, y: -0, z: 60}
+        time: 4.5
+        value: {x: 0, y: 0, z: -180}
+        inSlope: {x: 0, y: 0, z: -40}
+        outSlope: {x: 0, y: 0, z: -40}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 9
+        value: {x: 0, y: 0, z: -360}
+        inSlope: {x: 0, y: 0, z: -40}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Start1
+    path: StartButton
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
@@ -44,7 +50,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 4192734565
+      path: 1146867889
       attribute: 4
       script: {fileID: 0}
       typeID: 4
@@ -56,7 +62,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 6
+    m_StopTime: 9
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -79,96 +85,28 @@ AnimationClip:
         time: 0
         value: 0
         inSlope: 0
-        outSlope: 0
+        outSlope: -40
         tangentMode: 69
       - serializedVersion: 2
-        time: 6
-        value: 0
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.x
-    path: Start1
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
+        time: 4.5
+        value: -180
+        inSlope: -40
+        outSlope: -40
         tangentMode: 69
       - serializedVersion: 2
-        time: 6
-        value: 0
-        inSlope: -0
-        outSlope: 0
-        tangentMode: 69
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: localEulerAnglesRaw.y
-    path: Start1
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 60
-        tangentMode: 69
-      - serializedVersion: 2
-        time: 6
-        value: 360
-        inSlope: 60
+        time: 9
+        value: -360
+        inSlope: -40
         outSlope: 0
         tangentMode: 69
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Start1
+    path: StartButton
     classID: 224
     script: {fileID: 0}
-  m_EulerEditorCurves:
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: Start1
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: Start1
-    classID: 224
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: Start1
-    classID: 224
-    script: {fileID: 0}
+  m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
