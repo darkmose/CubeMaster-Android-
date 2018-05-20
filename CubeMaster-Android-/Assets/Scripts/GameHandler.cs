@@ -10,11 +10,13 @@ public class GameHandler : MonoBehaviour
     public bool loadLevel = true;
     public Stars stars;
     public GameObject starsPanel;
+    public ScreenHandler screen;
 
     private void Start()
     {
-        GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBackCube(); });
+        // GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
+        //  GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBackCube(); });
+        screen = GameObject.Find("Main Camera").transform.Find("MainScreen").GetComponentInChildren<ScreenHandler>();
         menu.SetActive(false);
         if (loadLevel)
         {
@@ -64,8 +66,9 @@ public class GameHandler : MonoBehaviour
         LevelManager.currentLevel++;
         string prefabName = LevelManager.currentIndexLocation.ToString() + "-" + (LevelManager.currentLevel).ToString();
         LoadPrefabOnLevel(prefabName);
-		//GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
+        screen.RefreshTarget();
         winScreen.SetActive(false);
+      
     }
 
     IEnumerator InstStars()
@@ -128,10 +131,10 @@ public class GameHandler : MonoBehaviour
     public void RetryLevel()
     {
         Destroy(GameObject.FindGameObjectWithTag("Level"));
-        string levelName = LevelManager.currentIndexLocation.ToString() + LevelManager.currentLevel.ToString();
+        string levelName = LevelManager.currentIndexLocation.ToString() +"-"+ LevelManager.currentLevel.ToString();
         LoadPrefabOnLevel(levelName);
-     //   GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().RefreshCube();
-        winScreen.SetActive(false);
+        screen.RefreshTarget();
+        winScreen.SetActive(false);        
     }
 
     void OpenGameMenu()

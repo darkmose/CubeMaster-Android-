@@ -17,8 +17,13 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
 
     private void Start()
     {
-        cubeScript = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
+        RefreshTarget();
         mainCamera = Camera.main.gameObject;
+    }
+
+    public void RefreshTarget()
+    {
+        cubeScript = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
     }
 
     void Zoom()

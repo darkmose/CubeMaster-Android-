@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   canMove: 1
+  isRotate: 0
   mask:
     serializedVersion: 2
     m_Bits: 4294967291
@@ -204,6 +205,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   Orig: {x: 0, y: 0, z: 0, w: 0}
-  Main: {fileID: 0}
-  Second: {fileID: 0}
+  Main: {fileID: 1150148570675158}
+  Second: {fileID: 1262080601935972}
   game: {fileID: 0}

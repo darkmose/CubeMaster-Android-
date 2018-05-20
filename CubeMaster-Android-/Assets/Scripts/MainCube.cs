@@ -16,35 +16,19 @@ public class MainCube : MonoBehaviour
 
     Quaternion quaternion;
 
-    [HideInInspector]
+    
     public GameObject Main, Second;
+    
 
     public GameHandler game;
 
     private void Awake()
     {
+        print("AWAKE");
         game = GameObject.Find("GameHandler").GetComponent<GameHandler>();
-        Main = GameObject.FindGameObjectWithTag("MainCube").gameObject;
-        Second = GameObject.FindGameObjectWithTag("SecondCube").gameObject;
         Orig = Main.transform.rotation;
-        game.stars = new Stars();
+        game.stars = new Stars();       
     }
-
-    private void Start()
-    {
-        Awake(); 
-    }
-
-    private void OnBecameVisible()
-    {
-        Awake();
-    }
-	
-	
-	//public void RefreshCube()
-	//{
-	//	Awake();		
-	//}
 	
 	
     public void ChangeCube(GameObject _main, GameObject _second)
@@ -187,6 +171,12 @@ public class MainCube : MonoBehaviour
 
     public void Moving(string side)
     {
+        if (!Main)
+        {
+            Main = GameObject.FindGameObjectWithTag("MainCube");
+            Second = GameObject.FindGameObjectWithTag("SecondCube");
+        }
+        
         float x = Main.transform.position.x;
         float y = Main.transform.position.y;
         float z = Main.transform.position.z;
