@@ -17,13 +17,13 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
 
     private void Start()
     {
-        RefreshTarget();
         mainCamera = Camera.main.gameObject;
     }
 
-    public void RefreshTarget()
+    public void RefreshTarget(MainCube script)
     {
-        cubeScript = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
+        cubeScript = null;
+        cubeScript = script;
     }
 
     void Zoom()
@@ -44,7 +44,7 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
             target.x = mainCamera.transform.position.x;
             target.z = mainCamera.transform.position.z;
 
-            mainCamera.transform.position = Vector2.MoveTowards(mainCamera.transform.position, target * zoomDelta, Time.deltaTime * 25);
+            mainCamera.transform.position += transform.forward * zoomDelta; 
             distance = Vector2.Distance(finger1, finger2);
         }
         else

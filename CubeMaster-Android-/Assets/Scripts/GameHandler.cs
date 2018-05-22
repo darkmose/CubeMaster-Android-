@@ -10,13 +10,13 @@ public class GameHandler : MonoBehaviour
     public bool loadLevel = true;
     public Stars stars;
     public GameObject starsPanel;
-    public ScreenHandler screen;
+
 
     private void Start()
     {
         // GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
         //  GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBackCube(); });
-        screen = GameObject.Find("Main Camera").transform.Find("MainScreen").GetComponentInChildren<ScreenHandler>();
+       
         menu.SetActive(false);
         if (loadLevel)
         {
@@ -61,14 +61,13 @@ public class GameHandler : MonoBehaviour
     }
 
     public void NextLevel()
-    {    
+    {
+        GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().StopAllCoroutines();
         Destroy(GameObject.FindGameObjectWithTag("Level"));
         LevelManager.currentLevel++;
         string prefabName = LevelManager.currentIndexLocation.ToString() + "-" + (LevelManager.currentLevel).ToString();
         LoadPrefabOnLevel(prefabName);
-        screen.RefreshTarget();
-        winScreen.SetActive(false);
-      
+        winScreen.SetActive(false);      
     }
 
     IEnumerator InstStars()
@@ -133,7 +132,6 @@ public class GameHandler : MonoBehaviour
         Destroy(GameObject.FindGameObjectWithTag("Level"));
         string levelName = LevelManager.currentIndexLocation.ToString() +"-"+ LevelManager.currentLevel.ToString();
         LoadPrefabOnLevel(levelName);
-        screen.RefreshTarget();
         winScreen.SetActive(false);        
     }
 

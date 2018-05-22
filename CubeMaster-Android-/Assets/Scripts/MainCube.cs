@@ -15,8 +15,8 @@ public class MainCube : MonoBehaviour
     public Quaternion Orig;
 
     Quaternion quaternion;
+    ScreenHandler screen;
 
-    
     public GameObject Main, Second;
     
 
@@ -27,7 +27,9 @@ public class MainCube : MonoBehaviour
         print("AWAKE");
         game = GameObject.Find("GameHandler").GetComponent<GameHandler>();
         Orig = Main.transform.rotation;
-        game.stars = new Stars();       
+        game.stars = new Stars();
+        screen = GameObject.Find("Main Camera").transform.Find("MainScreen").GetComponentInChildren<ScreenHandler>();
+        screen.RefreshTarget(this);
     }
 	
 	
@@ -175,6 +177,7 @@ public class MainCube : MonoBehaviour
         {
             Main = GameObject.FindGameObjectWithTag("MainCube");
             Second = GameObject.FindGameObjectWithTag("SecondCube");
+
         }
         
         float x = Main.transform.position.x;
@@ -199,6 +202,7 @@ public class MainCube : MonoBehaviour
                 SwitchHelper(-90, new Vector3(x, y, z - 1), new Vector3(x, y, z - 2), Vector3.right, -Vector3.forward);
                 break;
         }
+        
     }
 
     void CheckEnd()
