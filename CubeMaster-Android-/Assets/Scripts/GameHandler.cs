@@ -1,47 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameHandler : MonoBehaviour
 {
-    public GameObject menu;
     public GameObject winScreen;
     public bool loadLevel = true;
     public Stars stars;
     public GameObject starsPanel;
-
+    public GameObject advMenu;
+    public Text coins;
+    public byte mplevel;
 
     private void Start()
     {
-        // GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        //  GameObject.Find("Main Camera").transform.Find("Canvas").Find("Button").GetComponent<Button>().onClick.AddListener(delegate () { ButtonBackCube(); });
-       
-        menu.SetActive(false);
+        coins.text = SaveManager.coins.ToString();
+
         if (loadLevel)
         {
             string level = LevelManager.currentIndexLocation.ToString() +"-"+ LevelManager.currentLevel.ToString();
             LoadPrefabOnLevel(level);
-        }        
+        }
+        advMenu.SetActive(true);
     }
 
-    public void ButtonBackCube()
+    void Coins()
     {
-		if(!winScreen.activeSelf)
-		{
-			MainCube mainCubeScript = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
-			GameObject _MainCube = GameObject.FindGameObjectWithTag("MainCube");
+        GameStartController gameStart = new GameStartController();
+        gameStart.SaveCoins();
+    }
 
-			if (mainCubeScript.canMove)
-			{
-				if (_MainCube.name == "SecondCube")
-				{
-					mainCubeScript.ChangeCube(mainCubeScript.Main, mainCubeScript.Second);
-				}
-				_MainCube.transform.position = GameObject.FindGameObjectWithTag("Start").transform.GetChild(0).position;
-				_MainCube.transform.rotation = mainCubeScript.Orig;
-			}
-		}
+    void NextCoinMap()
+    {
+        GameStartController gameStart = new GameStartController();        
+        gameStart.CheckCreateCoinsFiles(LevelManager.currentLevel, LevelManager.currentIndexLocation);
     }
 
     public void LoadPrefabOnLevel(string prefabName)
@@ -62,10 +56,13 @@ public class GameHandler : MonoBehaviour
 
     public void NextLevel()
     {
+        advMenu.SetActive(true);
+        advMenu.GetComponent<AdvMenu>().lvlName.text = advMenu.GetComponent<AdvMenu>().Name;
         GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().StopAllCoroutines();
         Destroy(GameObject.FindGameObjectWithTag("Level"));
         LevelManager.currentLevel++;
         string prefabName = LevelManager.currentIndexLocation.ToString() + "-" + (LevelManager.currentLevel).ToString();
+        NextCoinMap();
         LoadPrefabOnLevel(prefabName);
         winScreen.SetActive(false);      
     }
@@ -91,15 +88,17 @@ public class GameHandler : MonoBehaviour
 
     public void Win()
     {
+        advMenu.SetActive(false);
         winScreen.SetActive(true);
 
         for (int i = 0; i < 3; i++)
         {
             GameObject.FindGameObjectWithTag("End").transform.Find("WinPart").GetChild(i).gameObject.SetActive(true);
         }
-        StartCoroutine(InstStars());
 
-        
+        Coins();
+
+        StartCoroutine(InstStars());
 
         if (SaveManager.scorePerLevels[LevelManager.currentIndexLocation, LevelManager.currentLevel] != 0)
         {
@@ -129,24 +128,24 @@ public class GameHandler : MonoBehaviour
 
     public void RetryLevel()
     {
-        Destroy(GameObject.FindGameObjectWithTag("Level"));
-        string levelName = LevelManager.currentIndexLocation.ToString() +"-"+ LevelManager.currentLevel.ToString();
-        LoadPrefabOnLevel(levelName);
-        winScreen.SetActive(false);        
-    }
+        MainCube mainCubeScript = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
+        GameObject _MainCube = GameObject.FindGameObjectWithTag("MainCube");
 
-    void OpenGameMenu()
-    {
-        Time.timeScale = 0;
-        menu.SetActive(true);
-        string levelName = LevelManager.currentLevelName + "\n" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString();
-        menu.transform.Find("Buttons").Find("levelName").GetComponent<Text>().text = levelName;
-    }
+        StopAllCoroutines();
 
-    public void CloseGameMenu()
-    {
+        if (mainCubeScript.canMove)
+        {
+            if (_MainCube.name == "SecondCube")
+            {
+                mainCubeScript.ChangeCube(mainCubeScript.Main, mainCubeScript.Second);
+            }
+            _MainCube.transform.position = GameObject.FindGameObjectWithTag("Start").transform.GetChild(0).position;
+            _MainCube.transform.rotation = mainCubeScript.Orig;
+        }
+
+        if(winScreen.activeSelf) winScreen.SetActive(false);
+        advMenu.GetComponent<AdvMenu>().AnimatePanel("Close");
         Time.timeScale = 1;
-        menu.SetActive(false);
     }
 
     public void ToMainMenu()
@@ -157,14 +156,11 @@ public class GameHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Home))
         {
-            if (Time.timeScale == 0 && !winScreen.activeSelf)
-                CloseGameMenu();
-            else if (Time.timeScale == 1 && !winScreen.activeSelf)
-                OpenGameMenu();
-            else if (winScreen.activeSelf)
-                ToMainMenu();
+            GameStartController gameStart = new GameStartController();
+            SaveManager.coins -= mplevel;
+            gameStart.SaveAllData();
         }
     }
 }

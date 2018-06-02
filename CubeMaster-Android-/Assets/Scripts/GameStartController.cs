@@ -24,22 +24,35 @@ public class GameStartController : MonoBehaviour
     public int MaxLevels = 12;
     SaveData save;
     string path;
+    string coinMapPath;
     public int countLocations = 4;
 
     private void Start()
+    {
+        if (PlayerPrefs.HasKey("Quality"))
+        {
+            QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"), false);
+        }
+        CheckCreateDir();
+        CheckCreateSaveFiles();
+    }
+
+
+    void CheckCreateDir()
     {
         if (!Directory.Exists(Application.persistentDataPath + "/SaveData/"))
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/");
         }
-        path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
-
-        if (PlayerPrefs.HasKey("Quality"))
+        if (!Directory.Exists(Application.persistentDataPath+"/CoinsMap/"))
         {
-            QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"), false);
+            Directory.CreateDirectory(Application.persistentDataPath + "/CoinsMap/");
         }
-       
+        path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
+    }
 
+    void CheckCreateSaveFiles()
+    {
         if (File.Exists(path))
         {
             if (SaveManager.canReadWrite)
@@ -51,18 +64,20 @@ public class GameStartController : MonoBehaviour
                     SaveManager.IndexOfMaxAviableLocation = save.IndexOfMaxAviableLocation;
                     SaveManager.MaxAviableLevelOnLocation = save.MaxAviableLevelOnLocation;
                     SaveManager.scorePerLevels = save.scorePerLevels;
+                    SaveManager.coins = save.coins;
                     fs.Close();
                     SaveManager.canReadWrite = false;
                 }
-            }            
+            }
         }
-        else if(SaveManager.canReadWrite)
+        else if (SaveManager.canReadWrite)
         {
             save = new SaveData(countLocations, MaxLevels)
             {
                 IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation,
                 MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation,
-                scorePerLevels = SaveManager.scorePerLevels
+                scorePerLevels = SaveManager.scorePerLevels,
+                coins = SaveManager.coins
             };
 
             using (FileStream fs = File.Open(path, FileMode.CreateNew))
@@ -75,13 +90,41 @@ public class GameStartController : MonoBehaviour
         }
     }
 
+    public void CheckCreateCoinsFiles(int _сlevel, int indexScene)
+    {
+        coinMapPath = Application.persistentDataPath + "/CoinsMap/" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString() + ".svm";
+        print(coinMapPath);
+        if (File.Exists(coinMapPath))
+        {
+            using (FileStream fs = File.Open(coinMapPath, FileMode.Open))
+            {
+                BinaryFormatter binary = new BinaryFormatter();
+                CoinsData coins = (CoinsData)binary.Deserialize(fs);
+                LevelManager.coinMaps = coins.coinMaps;
+                fs.Close();
+            }
+        }
+        else
+        {
+            using (FileStream fs = File.Create(coinMapPath))
+            {
+                BinaryFormatter binary = new BinaryFormatter();
+                CoinsData coins = new CoinsData(true);
+                LevelManager.coinMaps = coins.coinMaps;
+                binary.Serialize(fs, coins);
+                fs.Close();
+            }
+        }
+    }
+
     public void StartGame(int _сlevel, int indexScene, string name, int countLevels)
     {
         LevelManager.currentMaxLevels = countLevels;
         LevelManager.currentLevel = _сlevel;
         LevelManager.currentIndexLocation = indexScene;
         LevelManager.currentLevelName = name;
-        print(LevelManager.currentLevel);
+
+        CheckCreateCoinsFiles(_сlevel, indexScene);        
         SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
     }
     
@@ -161,8 +204,6 @@ public class GameStartController : MonoBehaviour
 
             number.GetComponent<Button>().onClick.AddListener(delegate () { StartGame(clevel, levels[currentLevel].Index, levels[currentLevel].LevelTypeName, levels[currentLevel].LevelsCount); });
 
-            print(SaveManager.scorePerLevels[levels[currentLevel].Index, clevel]);
-
             if (SaveManager.scorePerLevels[levels[currentLevel].Index, clevel] != 0)
             {
                 for (byte j = 0; j < SaveManager.scorePerLevels[levels[currentLevel].Index, clevel]; j++)
@@ -203,13 +244,31 @@ public class GameStartController : MonoBehaviour
         }
     }
 
-    void SaveAllData()
+    public void SaveCoins()
     {
+        coinMapPath = Application.persistentDataPath + "/CoinsMap/" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString() + ".svm";
+
+        using (FileStream fs = File.Open(coinMapPath, FileMode.Create))
+        {
+            BinaryFormatter binary = new BinaryFormatter();
+            CoinsData coins = new CoinsData
+            {
+                coinMaps = LevelManager.coinMaps
+            };
+            binary.Serialize(fs, coins);
+            fs.Close();
+        }
+    }
+    public void SaveAllData()
+    {
+        path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
+        
         save = new SaveData
         {
             IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation,
             MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation,
-            scorePerLevels = SaveManager.scorePerLevels
+            scorePerLevels = SaveManager.scorePerLevels,
+            coins = SaveManager.coins
         };
 
         using (FileStream fs = File.Open(path, FileMode.Create))
@@ -273,7 +332,6 @@ public class GameStartController : MonoBehaviour
         }
 
     }
-
     public void PrevTypeLevel()
     {
         if (!rotateCube)
@@ -331,6 +389,10 @@ public class GameStartController : MonoBehaviour
     private void Update()
     {
         Back();
+        if (Input.GetKeyUp(KeyCode.Home))
+        {
+            SaveAllData();
+        }
     }
 
 }

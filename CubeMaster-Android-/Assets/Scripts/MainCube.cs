@@ -24,14 +24,30 @@ public class MainCube : MonoBehaviour
 
     private void Awake()
     {
-        print("AWAKE");
         game = GameObject.Find("GameHandler").GetComponent<GameHandler>();
         Orig = Main.transform.rotation;
         game.stars = new Stars();
         screen = GameObject.Find("Main Camera").transform.Find("MainScreen").GetComponentInChildren<ScreenHandler>();
+        CCheck();
         screen.RefreshTarget(this);
+        game.mplevel = 0;
     }
-	
+
+    void CCheck()
+    {
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coins");
+        print(LevelManager.coinMaps.Count);
+        for(int i = 0; i<coins.Length; i++)
+        {
+            foreach (SerializableVector v3 in LevelManager.coinMaps)
+            {
+                if (v3.x == coins[i].transform.parent.position.x && v3.z == coins[i].transform.parent.position.z)
+                {
+                    Destroy(coins[i]);
+                }
+            }
+        }        
+    }
 	
     public void ChangeCube(GameObject _main, GameObject _second)
     {
@@ -63,123 +79,14 @@ public class MainCube : MonoBehaviour
         }
     }
 
-    void SwitchHelper(float _angle, Vector3 _target, Vector3 _altTarget, Vector3 _rotateVector, Vector3 _rayVector)
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(Main.transform.position, Vector3.up);
-        if (Physics.Raycast(ray, out hit, 1, mask))
-        {
-            if (hit.collider.gameObject.layer == 8)
-            {
-                ray = new Ray(Main.transform.position, _rayVector);
-
-                if (Physics.Raycast(ray, out hit, 2, mask))
-                {
-                    if (hit.collider.tag != "Block")
-                    {
-                        quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                        StartCoroutine(MoveHelper(_target));
-                        StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                        return;
-                    }
-                }
-                else
-                {
-                    quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                    StartCoroutine(MoveHelper(_target));
-                    StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                    return;
-                }
-            }
-        }
-        else
-        {
-            ray = new Ray(Main.transform.position, _rayVector);
-            if (Physics.Raycast(ray, out hit, 1, mask))
-            {
-                if (hit.collider.gameObject.layer == 8)
-                {
-                    ChangeCube(Main, Second);
-
-                    ray = new Ray(Main.transform.position, _rayVector);
-                    if (Physics.Raycast(ray, out hit, 1, mask))
-                    {
-                        if (hit.collider.tag != "Block")
-                        {
-                            quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                            StartCoroutine(MoveHelper(_altTarget));
-                            StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                        StartCoroutine(MoveHelper(_altTarget));
-                        StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                        return;
-                    }
-
-                }
-                else if (hit.collider.tag != "Block")
-                {
-                    if (Physics.Raycast(new Ray(Main.transform.Find("SecondCube").position, _rayVector), out hit, 1, secondMask))
-                    {
-                        if (hit.collider.tag != "Block")
-                        {
-                            quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                            StartCoroutine(MoveHelper(_target));
-                            StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                            return;
-                        }
-                        else
-                        {
-                            quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                            StartCoroutine(MoveHelper(_target));
-                            StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                            return;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (Physics.Raycast(new Ray(Main.transform.Find("SecondCube").position, _rayVector), out hit, 1, secondMask))
-                {
-                    if (hit.collider.tag != "Block")
-                    {
-                        quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                        StartCoroutine(MoveHelper(_target));
-                        StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                        return;
-                    }
-                }
-                else
-                {
-                    quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
-                    StartCoroutine(MoveHelper(_target));
-                    StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
-                    return;
-                }
-            }
-        }
-
-
-        canMove = true;
-        isRotate = false;
-
-        return;
-    }
-
     public void Moving(string side)
     {
         if (!Main)
         {
             Main = GameObject.FindGameObjectWithTag("MainCube");
             Second = GameObject.FindGameObjectWithTag("SecondCube");
-
         }
-        
+
         float x = Main.transform.position.x;
         float y = Main.transform.position.y;
         float z = Main.transform.position.z;
@@ -202,8 +109,110 @@ public class MainCube : MonoBehaviour
                 SwitchHelper(-90, new Vector3(x, y, z - 1), new Vector3(x, y, z - 2), Vector3.right, -Vector3.forward);
                 break;
         }
-        
     }
+
+
+
+    void SwitchHelper(float _angle, Vector3 _target, Vector3 _altTarget, Vector3 _rotateVector, Vector3 _rayVector)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(Main.transform.position, Vector3.up);
+
+        if (Physics.Raycast(ray, out hit, 1, mask))
+        {
+            if (hit.collider.gameObject.layer == 8)
+            {
+                ray = new Ray(Main.transform.position, _rayVector);
+
+                if (Physics.Raycast(ray, out hit, 2, mask))
+                {
+                    if (hit.collider.tag != "Block")
+                    {
+                        Step(_angle, _target, _rotateVector);
+                        return;
+                    }
+                }
+                else
+                {
+                    Step(_angle, _target, _rotateVector);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            ray = new Ray(Main.transform.position, _rayVector);
+            if (Physics.Raycast(ray, out hit, 1, mask))
+            {
+                if (hit.collider.gameObject.layer == 8)
+                {
+                    ChangeCube(Main, Second);
+
+                    ray = new Ray(Main.transform.position, _rayVector);
+                    if (Physics.Raycast(ray, out hit, 1, mask))
+                    {
+                        if (hit.collider.tag != "Block")
+                        {
+                            Step(_angle, _altTarget, _rotateVector);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Step(_angle, _altTarget, _rotateVector);
+                        return;
+                    }
+
+                }
+                else if (hit.collider.tag != "Block")
+                {
+                    if (Physics.Raycast(new Ray(Main.transform.Find("SecondCube").position, _rayVector), out hit, 1, secondMask))
+                    {
+                        if (hit.collider.tag != "Block")
+                        {
+                            Step(_angle, _target, _rotateVector);
+                            return;
+                        }
+                        else
+                        {
+                            Step(_angle, _target, _rotateVector);
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (Physics.Raycast(new Ray(Main.transform.Find("SecondCube").position, _rayVector), out hit, 1, secondMask))
+                {
+                    if (hit.collider.tag != "Block")
+                    {
+                        Step(_angle, _target, _rotateVector);
+                        return;
+                    }
+                }
+                else
+                {
+                    Step(_angle, _target, _rotateVector);
+                    return;
+                }
+            }
+        }
+
+
+        canMove = true;
+        isRotate = false;
+
+        return;
+    }
+
+    void Step(float _angle, Vector3 _target, Vector3 _rotateVector)
+    {
+        quaternion = Quaternion.AngleAxis(_angle, _rotateVector);
+        StartCoroutine(MoveHelper(_target));
+        StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
+    }
+
 
     void CheckEnd()
     {
@@ -218,7 +227,6 @@ public class MainCube : MonoBehaviour
                     if (hit.collider.CompareTag("End"))
                     {
                         game.Win();
-                        //Effects 
                     }
                 }
             }
@@ -252,4 +260,7 @@ public class MainCube : MonoBehaviour
     {
         Move();
     }
+
+
+
 }

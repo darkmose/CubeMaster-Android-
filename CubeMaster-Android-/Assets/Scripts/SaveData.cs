@@ -5,6 +5,7 @@ public static class SaveManager
     public static int IndexOfMaxAviableLocation;
     public static int[,] MaxAviableLevelOnLocation;
     public static int[,] scorePerLevels;
+    public static int coins;
 }
 
 [System.Serializable]
@@ -18,9 +19,12 @@ public class SaveData
         SaveManager.IndexOfMaxAviableLocation = 1;
         SaveManager.MaxAviableLevelOnLocation = new int[levelsCount, maxLevels];
         SaveManager.MaxAviableLevelOnLocation[1, 1] = 1;
+        SaveManager.coins = 0;
     }
 
     public int IndexOfMaxAviableLocation;
     public int[,] MaxAviableLevelOnLocation;
     public int[,] scorePerLevels;
+    public int coins;
 }
+
