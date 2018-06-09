@@ -127,7 +127,14 @@ public class GameStartController : MonoBehaviour
         CheckCreateCoinsFiles(_сlevel, indexScene);        
         SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
     }
-    
+
+    public void SkinsShop()
+    {
+        GameObject.Find("Main Camera").SetActive(false);
+        mainMenu.SetActive(false);
+        GameObject.Find("Shop").gameObject.SetActive(true);
+    }
+
     public void LevelType()
     {
         mainMenu.SetActive(false);
