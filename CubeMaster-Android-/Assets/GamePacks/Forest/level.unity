@@ -153,6 +153,7 @@ MonoBehaviour:
   starsPanel: {fileID: 647252240}
   advMenu: {fileID: 1077459224}
   coins: {fileID: 1644401915}
+  mplevel: 0
 --- !u!4 &253220303
 Transform:
   m_ObjectHideFlags: 0

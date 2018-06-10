@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Shop : MonoBehaviour
@@ -21,17 +21,10 @@ public class Shop : MonoBehaviour
         invMenu.transform.Find("StartRoll").gameObject.SetActive(false);
     }
 
-    void Back()
+    public void Back()
     {
-        invMenu.GetComponent<RectTransform>().localPosition = Vector2.zero;
-        invList.gameObject.SetActive(false);
-        openCase.gameObject.SetActive(false);
-        invMenu.SetActive(false);
-        invMenu.transform.Find("StartRoll").gameObject.SetActive(false);
-        
-        ////////////////////////
-    }
-   
+        SceneManager.LoadScene(0);
+    }  
 
 
     IEnumerator StateInvMenu(string state,RectTransform trans)

@@ -17,7 +17,7 @@ public class AdvMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         get
         {
-            return LevelManager.currentLevelName + "\n" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString();
+            return LevelManager.currentLevelName + "\n" + (LevelManager.currentIndexLocation-1).ToString() + "-" + LevelManager.currentLevel.ToString();
         }
     }
 

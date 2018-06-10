@@ -6,7 +6,7 @@ public class Case
 {
     public Color colorRarity;
     public int indexRarity;
-    public Sprite caseSprite;
+    public Sprite caseSprite,caseSpriteOpen;
     public string name;
 }
 

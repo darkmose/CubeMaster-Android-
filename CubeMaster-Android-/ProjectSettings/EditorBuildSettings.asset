@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/MainScene.unity
     guid: 5b79afa0fab7de640be2a65b26beffbf
   - enabled: 1
+    path: Assets/ShopScene.unity
+    guid: c814716193d185d44aa167d8c6aabf30
+  - enabled: 1
     path: Assets/GamePacks/Forest/level.unity
     guid: fbd3729694065c742ba44192053c13cb
   - enabled: 1

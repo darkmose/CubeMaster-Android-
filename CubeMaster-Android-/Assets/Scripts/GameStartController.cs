@@ -26,6 +26,7 @@ public class GameStartController : MonoBehaviour
     string path;
     string coinMapPath;
     public int countLocations = 4;
+    
 
     private void Start()
     {
@@ -130,9 +131,7 @@ public class GameStartController : MonoBehaviour
 
     public void SkinsShop()
     {
-        GameObject.Find("Main Camera").SetActive(false);
-        mainMenu.SetActive(false);
-        GameObject.Find("Shop").gameObject.SetActive(true);
+        SceneManager.LoadScene(1);
     }
 
     public void LevelType()
