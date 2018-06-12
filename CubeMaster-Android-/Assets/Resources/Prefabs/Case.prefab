@@ -130,6 +130,7 @@ MonoBehaviour:
   indexRarity: 0
   _name: 
   sprite: {fileID: 0}
+  spriteOp: {fileID: 0}
 --- !u!114 &114569245821509028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -149,7 +150,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 15ac55745d694724787f8839ce5a859a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -235,10 +236,10 @@ RectTransform:
   m_Father: {fileID: 224586019298235492}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.11333334, y: 0.116666675}
-  m_AnchorMax: {x: 0.8833334, y: 0.89000005}
-  m_AnchoredPosition: {x: 0, y: -0.5000019}
-  m_SizeDelta: {x: 17.27, y: 16.3}
+  m_AnchorMin: {x: 0.16333334, y: 0.16666667}
+  m_AnchorMax: {x: 0.8333334, y: 0.8316667}
+  m_AnchoredPosition: {x: 0, y: -0.0000019073486}
+  m_SizeDelta: {x: 12.53, y: 12.65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224912523001514232
 RectTransform:

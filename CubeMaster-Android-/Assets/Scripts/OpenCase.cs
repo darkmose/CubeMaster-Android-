@@ -35,7 +35,7 @@ public class OpenCase : MonoBehaviour
         {
             Destroy(casePanel.GetChild(i).gameObject);
         }
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 70; i++)
         {
             int rand = Random.Range(0, 1000);
             byte index = 11;
