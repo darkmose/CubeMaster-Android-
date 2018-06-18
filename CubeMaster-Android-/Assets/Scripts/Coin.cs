@@ -10,8 +10,8 @@ public class Coin : MonoBehaviour
         {         
             SaveManager.coins++;
             GameObject.Find("GameHandler").GetComponent<GameHandler>().mplevel++;
-            DestroyObject(this.gameObject);
-            GameObject.Find("MainScreen").transform.Find("Coins").Find("Text").GetComponent<Text>().text = SaveManager.coins.ToString();
+            
+            GameObject.Find("Main Camera").transform.Find("MainScreen").Find("CoinsPanel").Find("Text").GetComponent<Text>().text = SaveManager.coins.ToString();
 
             SerializableVector vec = new SerializableVector
             {
@@ -19,6 +19,7 @@ public class Coin : MonoBehaviour
                 z = transform.parent.position.z
             };
             LevelManager.coinMaps.Add(vec);
+            DestroyObject(this.gameObject);
         }
 
     }

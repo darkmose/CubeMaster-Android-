@@ -21,10 +21,10 @@ public class GameStartController : MonoBehaviour
     public LeveChooseHandler[] levels = new LeveChooseHandler[4];
     public Texture2D defaultNull;
     public GameObject mainCube;
+    public CoinSaver Csaver;
     public int MaxLevels = 12;
     SaveData save;
     string path;
-    string coinMapPath;
     public int countLocations = 4;
     
 
@@ -45,13 +45,8 @@ public class GameStartController : MonoBehaviour
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/");
         }
-        if (!Directory.Exists(Application.persistentDataPath+"/CoinsMap/"))
-        {
-            Directory.CreateDirectory(Application.persistentDataPath + "/CoinsMap/");
-        }
         path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
     }
-
     void CheckCreateSaveFiles()
     {
         if (File.Exists(path))
@@ -91,47 +86,19 @@ public class GameStartController : MonoBehaviour
         }
     }
 
-    public void CheckCreateCoinsFiles(int _сlevel, int indexScene)
-    {
-        coinMapPath = Application.persistentDataPath + "/CoinsMap/" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString() + ".svm";
-        print(coinMapPath);
-        if (File.Exists(coinMapPath))
-        {
-            using (FileStream fs = File.Open(coinMapPath, FileMode.Open))
-            {
-                BinaryFormatter binary = new BinaryFormatter();
-                CoinsData coins = (CoinsData)binary.Deserialize(fs);
-                LevelManager.coinMaps = coins.coinMaps;
-                fs.Close();
-            }
-        }
-        else
-        {
-            using (FileStream fs = File.Create(coinMapPath))
-            {
-                BinaryFormatter binary = new BinaryFormatter();
-                CoinsData coins = new CoinsData(true);
-                LevelManager.coinMaps = coins.coinMaps;
-                binary.Serialize(fs, coins);
-                fs.Close();
-            }
-        }
-    }
-
     public void StartGame(int _сlevel, int indexScene, string name, int countLevels)
     {
         LevelManager.currentMaxLevels = countLevels;
         LevelManager.currentLevel = _сlevel;
         LevelManager.currentIndexLocation = indexScene;
         LevelManager.currentLevelName = name;
-
-        CheckCreateCoinsFiles(_сlevel, indexScene);        
+        Csaver.CheckCreateCoinsFiles(_сlevel, indexScene);        
         SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
     }
 
     public void SkinsShop()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("ShopScene");
     }
 
     public void LevelType()
@@ -249,22 +216,7 @@ public class GameStartController : MonoBehaviour
             }
         }
     }
-
-    public void SaveCoins()
-    {
-        coinMapPath = Application.persistentDataPath + "/CoinsMap/" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString() + ".svm";
-
-        using (FileStream fs = File.Open(coinMapPath, FileMode.Create))
-        {
-            BinaryFormatter binary = new BinaryFormatter();
-            CoinsData coins = new CoinsData
-            {
-                coinMaps = LevelManager.coinMaps
-            };
-            binary.Serialize(fs, coins);
-            fs.Close();
-        }
-    }
+    
     public void SaveAllData()
     {
         path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";

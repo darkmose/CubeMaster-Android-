@@ -16,6 +16,7 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
+
         coins.text = SaveManager.coins.ToString();
 
         if (loadLevel)
@@ -28,14 +29,14 @@ public class GameHandler : MonoBehaviour
 
     void Coins()
     {
-        GameStartController gameStart = new GameStartController();
-        gameStart.SaveCoins();
+       CoinSaver CoinsSaver = new CoinSaver();
+       CoinsSaver.SaveCoins();
     }
 
     void NextCoinMap()
     {
-        GameStartController gameStart = new GameStartController();        
-        gameStart.CheckCreateCoinsFiles(LevelManager.currentLevel, LevelManager.currentIndexLocation);
+        CoinSaver CoinsSaver = new CoinSaver();
+        CoinsSaver.CheckCreateCoinsFiles(LevelManager.currentLevel, LevelManager.currentIndexLocation);
     }
 
     public void LoadPrefabOnLevel(string prefabName)

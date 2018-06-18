@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Shop : MonoBehaviour
 {
@@ -8,9 +10,11 @@ public class Shop : MonoBehaviour
     public Camera _camera;
     public Transform invList, openCase;
     public GameObject invMenu;
-    public Animator anim,cube;
-    private bool isOpenSomething=false;
+    public Animator anim, cube;
+    private bool isOpenSomething = false;
     bool flag = false;
+    public InventoryStore inventorySkins;
+    public GameObject prefabContainer;
 
     void Start()
     {
@@ -24,16 +28,16 @@ public class Shop : MonoBehaviour
     public void Back()
     {
         SceneManager.LoadScene(0);
-    }  
+    }
 
 
-    IEnumerator StateInvMenu(string state,RectTransform trans)
+    IEnumerator StateInvMenu(string state, RectTransform trans)
     {
         back:
         if (!flag)
         {
             flag = true;
-            
+
             switch (state)
             {
 
@@ -67,7 +71,7 @@ public class Shop : MonoBehaviour
             while (flag) { yield return new WaitForFixedUpdate(); }
             goto back;
         }
-       
+
     }
 
     public void MyInv()
@@ -103,7 +107,6 @@ public class Shop : MonoBehaviour
             OpenMyInv();
         }
     }
-    
     public void OpenCaseInv()
     {
         if (!isOpenSomething || openCase.gameObject.activeSelf)
@@ -115,7 +118,6 @@ public class Shop : MonoBehaviour
                 StartCoroutine(StateInvMenu("Open", invMenu.GetComponent<RectTransform>()));
                 openCase.gameObject.SetActive(true);
                 invMenu.transform.Find("StartRoll").gameObject.SetActive(true);
-                OpenCase();
             }
             else
             {
@@ -130,19 +132,45 @@ public class Shop : MonoBehaviour
         else
         {
             MyInv();
-            isOpenSomething = true;            
+            isOpenSomething = true;
             anim.SetBool("isCases", true);
             StartCoroutine(StateInvMenu("Open", invMenu.GetComponent<RectTransform>()));
             openCase.gameObject.SetActive(true);
             invMenu.transform.Find("StartRoll").gameObject.SetActive(true);
-            OpenCase();
         }
 
     }
 
 
 
-   void OpenMyInv() { }////////////////////////
-   void OpenCase() { }
+    void OpenMyInv()
+    {
+        for (int i = invList.childCount - 1; i > 0; i--)
+        {
+            Destroy(invList.GetChild(i).gameObject);
+        }
+        int length = inventorySkins.inventory.skins.Count;
+        for (int k = 0; k < length; k++)
+        {
+            GameObject prefab = Instantiate(prefabContainer, invList.GetChild(0));
+            prefab.GetComponent<InvContainer>().skin = inventorySkins.inventory.skins[k];
+            switch (prefab.GetComponent<InvContainer>().skin.rarity)
+            {
+                case "Common":
+                    prefab.transform.Find("background").GetComponent<Image>().color = new Color32(26,128,52,80);
+                    break;
+                case "Uncommon":
+                    prefab.transform.Find("background").GetComponent<Image>().color = new Color32(52, 253, 195, 80);
+                    break;
+                case "Golden":
+                    prefab.transform.Find("background").GetComponent<Image>().color = new Color32(221, 208, 29, 80);
+                    break;
+                default:
+                    prefab.transform.Find("background").GetComponent<Image>().color = Color.black;
+                    break;
+            }
+            prefab.transform.Find("Item").GetComponent<Image>().sprite = inventorySkins.inventory.skins[k].sprite;            
+        }
+    }
 
 }

@@ -16,9 +16,9 @@ public class SaveData
     public SaveData(int levelsCount, int maxLevels)
     {
         SaveManager.scorePerLevels = new int[levelsCount, maxLevels];
-        SaveManager.IndexOfMaxAviableLocation = 2;
+        SaveManager.IndexOfMaxAviableLocation = 1;
         SaveManager.MaxAviableLevelOnLocation = new int[levelsCount, maxLevels];
-        SaveManager.MaxAviableLevelOnLocation[2, 1] = 1;
+        SaveManager.MaxAviableLevelOnLocation[1, 1] = 1;
         SaveManager.coins = 0;
     }
 

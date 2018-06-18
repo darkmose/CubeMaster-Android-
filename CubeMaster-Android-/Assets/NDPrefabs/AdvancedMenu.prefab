@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224682953049995142}
   - component: {fileID: 222175007456074230}
   - component: {fileID: 114617593992822560}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Elements
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 222709365637800836}
   - component: {fileID: 114257022257875366}
   - component: {fileID: 114215400273681752}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Share
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 224551328172208548}
   - component: {fileID: 222072368582033042}
   - component: {fileID: 114796529115086352}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 222510409724895604}
   - component: {fileID: 114768325175921072}
   - component: {fileID: 114253957949468028}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ToMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 224285145625476762}
   - component: {fileID: 222654343549292546}
   - component: {fileID: 114913550496866350}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: AdvPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 222758931084215746}
   - component: {fileID: 114255668230193230}
   - component: {fileID: 114863499986842328}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LevelName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 222068754830811308}
   - component: {fileID: 114279311445787522}
   - component: {fileID: 114168323913943828}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Retry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 222599593759550426}
   - component: {fileID: 114892644556231638}
   - component: {fileID: 95728683415736674}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 222418733204696602}
   - component: {fileID: 114498393388518752}
   - component: {fileID: 114184655849221698}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 223108078623000634}
   - component: {fileID: 114384587648734538}
   - component: {fileID: 114763321140899060}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: AdvancedMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 224231946090411292}
   - component: {fileID: 222835044802527934}
   - component: {fileID: 114981482758666930}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GearRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &224019286712405952
 RectTransform:

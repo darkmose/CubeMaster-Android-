@@ -76,6 +76,7 @@ public class OpenCase : MonoBehaviour
         }
         chest.transform.localPosition = pos;
         chest.GetComponent<Image>().sprite = result.spriteOp;
+        prizePanel.Find("Effect").gameObject.SetActive(true);
         result = null;
 
     }
@@ -113,7 +114,9 @@ public class OpenCase : MonoBehaviour
             if (isPrize)
             {
                 isPrize = false;
+                prizePanel.Find("Effect").gameObject.SetActive(false);
                 prizePanel.gameObject.SetActive(false);
+                
             }
         }
         if (isRoll)

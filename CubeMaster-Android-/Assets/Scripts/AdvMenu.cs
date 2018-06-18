@@ -17,7 +17,7 @@ public class AdvMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
     {
         get
         {
-            return LevelManager.currentLevelName + "\n" + (LevelManager.currentIndexLocation-1).ToString() + "-" + LevelManager.currentLevel.ToString();
+            return LevelManager.currentLevelName + "\n" + (LevelManager.currentIndexLocation).ToString() + "-" + LevelManager.currentLevel.ToString();
         }
     }
 
@@ -46,15 +46,12 @@ public class AdvMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         _first = eventData.position;
         gear.SetActive(true);
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 target = Input.mousePosition;
         target.y = panel.GetComponent<RectTransform>().anchoredPosition.y;
         panel.GetComponent<RectTransform>().localPosition = target;
     }
-
-
     public void AnimatePanel(string state)
     {
         switch (state)
@@ -84,8 +81,6 @@ public class AdvMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
             gear.SetActive(false);
         }
     }
-
-
     public void OnEndDrag(PointerEventData eventData)
     {
         _second = eventData.position;

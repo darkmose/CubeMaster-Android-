@@ -36,7 +36,6 @@ public class MainCube : MonoBehaviour
     void CCheck()
     {
         GameObject[] coins = GameObject.FindGameObjectsWithTag("Coins");
-        print(LevelManager.coinMaps.Count);
         for(int i = 0; i<coins.Length; i++)
         {
             foreach (SerializableVector v3 in LevelManager.coinMaps)
@@ -110,8 +109,6 @@ public class MainCube : MonoBehaviour
                 break;
         }
     }
-
-
 
     void SwitchHelper(float _angle, Vector3 _target, Vector3 _altTarget, Vector3 _rotateVector, Vector3 _rayVector)
     {
@@ -212,7 +209,6 @@ public class MainCube : MonoBehaviour
         StartCoroutine(MoveHelper(_target));
         StartCoroutine(RotateHelper(quaternion * Main.transform.rotation));
     }
-
 
     void CheckEnd()
     {

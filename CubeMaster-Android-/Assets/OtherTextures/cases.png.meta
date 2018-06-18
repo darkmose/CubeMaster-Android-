@@ -6,6 +6,10 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: cases_0
     21300002: cases_1
+    21300004: cases_2
+    21300006: cases_3
+    21300008: cases_4
+    21300010: cases_5
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -96,12 +100,12 @@ TextureImporter:
       name: cases_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 6
+        x: 14
+        y: 648
         width: 304
-        height: 252
+        height: 247
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -110,10 +114,66 @@ TextureImporter:
       name: cases_1
       rect:
         serializedVersion: 2
-        x: 327
-        y: 7
-        width: 327
+        x: 344
+        y: 648
+        width: 320
         height: 288
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cases_2
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 346
+        width: 325
+        height: 253
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cases_3
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 340
+        width: 326
+        height: 281
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cases_4
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 27
+        width: 330
+        height: 282
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cases_5
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 20
+        width: 356
+        height: 299
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
