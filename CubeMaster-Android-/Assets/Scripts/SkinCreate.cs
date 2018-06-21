@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
-
+#endif
 public class SkinCreate : MonoBehaviour
 {
     [SerializeField]
     public Sprite[] spriteArray;
     [SerializeField]
-    public Sprite[] normalsArray;
+    public Texture2D[] normalsArray;
     public SkinsHolder skinsHolder;
    
     public enum skinType
@@ -18,7 +19,7 @@ public class SkinCreate : MonoBehaviour
     }
     public skinType type = new skinType();
 
-
+#if UNITY_EDITOR
     public void Parse()
     {
         for (int i = 0; i < spriteArray.Length; i++)
@@ -35,9 +36,6 @@ public class SkinCreate : MonoBehaviour
             Debug.Log("Parsing: " + (float)i / spriteArray.Length * 100 + " % \n");
         }
 
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
         Debug.Log("All Done Successfully\n");
     }
 
@@ -47,7 +45,8 @@ public class SkinCreate : MonoBehaviour
         string assetName = spriteArray[index].name;
         asset.name = assetName;
         asset.sprite = spriteArray[index];
-        asset.rarity = type.ToString();
+        asset.rarity = (Skin.Rarity)type;
+
         try
         {
             if (normalsArray[index] != null)
@@ -65,6 +64,48 @@ public class SkinCreate : MonoBehaviour
         
         AssetDatabase.CreateAsset(asset, path);
         skinsHolder.skinPacks[(int)type].skins.Add(asset);
+
+        EditorUtility.SetDirty(skinsHolder.skinPacks[(int)type]);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
+    public void ClearInv()
+    {
+        FindObjectOfType<Shop>().inventorySkins.skins.Clear();
+        EditorUtility.SetDirty(FindObjectOfType<Shop>().inventorySkins);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+    public void ClearSkinsNSkinPacks()
+    {
+        string[] paths1 = Directory.GetFiles("Assets/Skins/Common/");
+        string[] paths2 = Directory.GetFiles("Assets/Skins/Uncommon/");
+        string[] paths3 = Directory.GetFiles("Assets/Skins/Golden/");
+
+        foreach (string p in paths1)
+        {
+            AssetDatabase.DeleteAsset(p);
+        }
+        foreach (string p in paths2)
+        {
+            AssetDatabase.DeleteAsset(p);
+        }
+        foreach (string p in paths3)
+        {
+            AssetDatabase.DeleteAsset(p);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            FindObjectOfType<SkinsHolder>().skinPacks[i].skins.Clear();
+            EditorUtility.SetDirty(FindObjectOfType<SkinsHolder>().skinPacks[i]);
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+       
+    }
+
+#endif
 }

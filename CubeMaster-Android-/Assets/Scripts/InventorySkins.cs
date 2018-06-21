@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="Inventory", fileName = "Default name"),System.Serializable]
-public class InventorySkins : ScriptableObject
+[System.Serializable]
+public class InventorySkins : MonoBehaviour
 {
+    [SerializeField]
     public List<Skin> skins;
 }

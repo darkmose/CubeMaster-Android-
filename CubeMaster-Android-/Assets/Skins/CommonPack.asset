@@ -13,4 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packName: Newbie
   rarity: Common
-  skins: []
+  skins:
+  - {fileID: 11400000, guid: 18bc030ad50e3af4ca1508bc293375cc, type: 2}
+  - {fileID: 11400000, guid: 74f12b294fe88dc4b8769d31080ad142, type: 2}
+  - {fileID: 11400000, guid: b4ac8d2bb39410b409fcae1fdad3994d, type: 2}

@@ -4,7 +4,13 @@
 public class Skin : ScriptableObject
 {
     public new string name;
-    public string rarity;
+    public enum Rarity
+    {
+        Common,
+        Uncommon,
+        Golden
+    }
+    public Rarity rarity;
     public Sprite sprite;
-    public Sprite normalSprite;
+    public Texture2D normalSprite;
 }

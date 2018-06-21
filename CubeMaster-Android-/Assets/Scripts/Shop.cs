@@ -1,35 +1,43 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 
 public class Shop : MonoBehaviour
 {
-
+    public InventorySkins inventory;
     public Camera _camera;
     public Transform invList, openCase;
     public GameObject invMenu;
     public Animator anim, cube;
     private bool isOpenSomething = false;
     bool flag = false;
-    public InventoryStore inventorySkins;
+    public InventorySkins inventorySkins;
     public GameObject prefabContainer;
+    public Material material;
+    public Material GameMaterial;
+    public GameObject AcceptMenu;
 
     void Start()
     {
+        AcceptMenu.SetActive(false);
         invMenu.GetComponent<RectTransform>().localPosition = Vector2.zero;
         invList.gameObject.SetActive(false);
         openCase.gameObject.SetActive(false);
         invMenu.SetActive(false);
         invMenu.transform.Find("StartRoll").gameObject.SetActive(false);
+        InventoryLoad();
     }
 
     public void Back()
     {
+        InventorySave();
         SceneManager.LoadScene(0);
     }
-
 
     IEnumerator StateInvMenu(string state, RectTransform trans)
     {
@@ -141,36 +149,94 @@ public class Shop : MonoBehaviour
 
     }
 
-
-
     void OpenMyInv()
     {
-        for (int i = invList.childCount - 1; i > 0; i--)
+        for (int i = invList.GetChild(0).childCount - 1; i > 0; i--)
         {
-            Destroy(invList.GetChild(i).gameObject);
+            Destroy(invList.GetChild(0).GetChild(i).gameObject);
         }
-        int length = inventorySkins.inventory.skins.Count;
-        for (int k = 0; k < length; k++)
+
+        foreach (Skin skin in inventorySkins.skins)
         {
             GameObject prefab = Instantiate(prefabContainer, invList.GetChild(0));
-            prefab.GetComponent<InvContainer>().skin = inventorySkins.inventory.skins[k];
-            switch (prefab.GetComponent<InvContainer>().skin.rarity)
+            prefab.GetComponent<InvContainer>().skin = skin;
+            switch (skin.rarity)
             {
-                case "Common":
-                    prefab.transform.Find("background").GetComponent<Image>().color = new Color32(26,128,52,80);
+                case Skin.Rarity.Common:
+                    prefab.transform.Find("background").GetComponent<Image>().color = new Color32(26, 128, 52, 80);
                     break;
-                case "Uncommon":
+                case Skin.Rarity.Uncommon:
                     prefab.transform.Find("background").GetComponent<Image>().color = new Color32(52, 253, 195, 80);
                     break;
-                case "Golden":
+                case Skin.Rarity.Golden:
                     prefab.transform.Find("background").GetComponent<Image>().color = new Color32(221, 208, 29, 80);
                     break;
                 default:
                     prefab.transform.Find("background").GetComponent<Image>().color = Color.black;
                     break;
             }
-            prefab.transform.Find("Item").GetComponent<Image>().sprite = inventorySkins.inventory.skins[k].sprite;            
+            prefab.transform.Find("Item").GetComponent<Image>().sprite = skin.sprite;
         }
     }
 
+
+    public void ShowAcceptWindow()
+    {
+        AcceptMenu.SetActive(true);
+    }
+
+    public void SaveChanges()
+    {
+        GameMaterial.SetTexture("_MainTex", material.GetTexture("_MainTex"));
+        if (material.GetTexture("_BumpMap"))
+        {
+            GameMaterial.SetTexture("_BumpMap", material.GetTexture("_BumpMap"));
+        }
+        else
+        {
+            GameMaterial.SetTexture("_BumpMap", null);
+        }
+        Back();
+    }
+
+    void InventoryLoad()
+    {
+        if (File.Exists(Application.persistentDataPath + "/SaveData/Inventory.inv"))
+        {
+            using (var inv = File.OpenRead(Application.persistentDataPath + "/SaveData/Inventory.inv"))
+            {
+                var binar = new BinaryFormatter();
+                var _inv = (InventoryLoadClass)binar.Deserialize(inv);
+                inventory = (InventorySkins)_inv.inventory;
+                inv.Close();
+            }
+        }
+        else
+        {
+            InventorySave();
+        }
+    }
+    void InventorySave()
+    {
+        using (var inv = File.Open(Application.persistentDataPath + "/SaveData/Inventory.inv", FileMode.Create))
+        {
+            var binar = new BinaryFormatter();
+            var _inv = new InventoryLoadClass(true);
+            _inv.inventory = inventory;
+            binar.Serialize(inv, _inv);
+            inv.Close();
+        }
+    }
+}
+
+[System.Serializable]
+public class InventoryLoadClass
+{   
+    [SerializeField]
+    public InventorySkins inventory;
+
+    public InventoryLoadClass(bool isNew)
+    {
+        inventory = new InventorySkins();
+    }
 }

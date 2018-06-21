@@ -146,6 +146,7 @@ public class GameHandler : MonoBehaviour
 
         if(winScreen.activeSelf) winScreen.SetActive(false);
         advMenu.GetComponent<AdvMenu>().AnimatePanel("Close");
+        stars.countCur = 0;
         Time.timeScale = 1;
     }
 

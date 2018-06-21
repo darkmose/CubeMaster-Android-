@@ -5,8 +5,16 @@ using UnityEngine;
 public class Case
 {
     public Color colorRarity;
-    public int indexRarity;
-    public Sprite caseSprite,caseSpriteOpen;
-    public string name;
+
+    public enum Rarity
+    {
+        Common,
+        Uncommon,
+        Golden
+    }
+
+    public Rarity rarity;
+    public Sprite caseSprite, caseSpriteOpen;
+
 }
 

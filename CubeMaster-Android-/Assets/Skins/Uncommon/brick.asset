@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7411edefb80eb71439461566f8adc71f, type: 3}
+  m_Name: brick
+  m_EditorClassIdentifier: 
+  name: brick
+  rarity: 1
+  sprite: {fileID: 21300000, guid: 47fa3b8c1d901334e9e0dd6d6d402d31, type: 3}
+  normalSprite: {fileID: 2800000, guid: 438b3d67be9dbd7488a61aa00b0eeabd, type: 3}

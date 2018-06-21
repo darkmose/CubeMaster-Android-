@@ -2,7 +2,12 @@
 
 public class CaseHolder : MonoBehaviour
 {
-    public int indexRarity;
-    public string _name;
+    public enum Rarity
+    {
+        Common,
+        Uncommon,
+        Golden
+    }
+    public Rarity rarity;
     public Sprite sprite,spriteOp;
 }

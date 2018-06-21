@@ -13,4 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packName: Good Stuff
   rarity: Uncommon
-  skins: []
+  skins:
+  - {fileID: 11400000, guid: 664fd3f83ee060a43a174ecdfb8ad145, type: 2}
+  - {fileID: 11400000, guid: a76cf7c83ce709544af14001b004cb3b, type: 2}
+  - {fileID: 11400000, guid: 3da694b65fe455542910fc57495adb78, type: 2}

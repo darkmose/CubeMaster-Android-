@@ -13,4 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packName: Lvl.99
   rarity: Golden
-  skins: []
+  skins:
+  - {fileID: 11400000, guid: d1837f2d9a2367c408db271799ecc969, type: 2}
+  - {fileID: 11400000, guid: 08a3f44752748d641ad06268613d7446, type: 2}
+  - {fileID: 11400000, guid: 25d665d41ca5bc943a5c348129af97f8, type: 2}

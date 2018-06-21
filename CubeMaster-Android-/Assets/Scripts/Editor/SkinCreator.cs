@@ -30,6 +30,19 @@ public class SkinCreator : Editor
 
         GUILayout.Space(30);
         GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Clear Skins"))
+        {
+            skinCreate.ClearSkinsNSkinPacks();
+        }
+        if (GUILayout.Button("Clear Inventory"))
+        {
+            skinCreate.ClearInv();
+        }
+        GUILayout.EndHorizontal();
+
         GUILayout.Space(30);
     }
 }
