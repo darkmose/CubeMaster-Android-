@@ -70,13 +70,6 @@ public class SkinCreate : MonoBehaviour
         AssetDatabase.Refresh();
     }
 
-    public void ClearInv()
-    {
-        FindObjectOfType<Shop>().inventorySkins.skins.Clear();
-        EditorUtility.SetDirty(FindObjectOfType<Shop>().inventorySkins);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-    }
     public void ClearSkinsNSkinPacks()
     {
         string[] paths1 = Directory.GetFiles("Assets/Skins/Common/");

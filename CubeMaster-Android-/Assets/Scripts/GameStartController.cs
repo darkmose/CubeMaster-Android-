@@ -26,16 +26,20 @@ public class GameStartController : MonoBehaviour
     SaveData save;
     string path;
     public int countLocations = 4;
+	public Text coins;
     
 
     private void Start()
     {
+		
         if (PlayerPrefs.HasKey("Quality"))
         {
             QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"), false);
         }
         CheckCreateDir();
         CheckCreateSaveFiles();
+		
+		coins.text = SaveManager.coins.ToString();
     }
 
 

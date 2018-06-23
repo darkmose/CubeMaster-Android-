@@ -15,7 +15,6 @@ public class CoinSaver : MonoBehaviour
     public void CheckCreateCoinsFiles(int _сlevel, int indexScene)
     {
         string coinMapPath = Application.persistentDataPath + "/CoinsMap/" + LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString() + ".svm";
-        print(coinMapPath);
         if (File.Exists(coinMapPath))
         {
             using (FileStream fs = File.Open(coinMapPath, FileMode.Open))

@@ -13,4 +13,5 @@ public class Skin : ScriptableObject
     public Rarity rarity;
     public Sprite sprite;
     public Texture2D normalSprite;
+
 }

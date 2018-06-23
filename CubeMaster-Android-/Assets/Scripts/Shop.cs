@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
@@ -16,7 +14,6 @@ public class Shop : MonoBehaviour
     public Animator anim, cube;
     private bool isOpenSomething = false;
     bool flag = false;
-    public InventorySkins inventorySkins;
     public GameObject prefabContainer;
     public Material material;
     public Material GameMaterial;
@@ -24,6 +21,7 @@ public class Shop : MonoBehaviour
 
     void Start()
     {
+        inventory = new InventorySkins();
         AcceptMenu.SetActive(false);
         invMenu.GetComponent<RectTransform>().localPosition = Vector2.zero;
         invList.gameObject.SetActive(false);
@@ -151,12 +149,12 @@ public class Shop : MonoBehaviour
 
     void OpenMyInv()
     {
-        for (int i = invList.GetChild(0).childCount - 1; i > 0; i--)
+        for (int i = invList.GetChild(0).childCount - 1; i >= 0; i--)
         {
             Destroy(invList.GetChild(0).GetChild(i).gameObject);
         }
 
-        foreach (Skin skin in inventorySkins.skins)
+        foreach (Skin skin in inventory.skins)
         {
             GameObject prefab = Instantiate(prefabContainer, invList.GetChild(0));
             prefab.GetComponent<InvContainer>().skin = skin;
@@ -180,6 +178,11 @@ public class Shop : MonoBehaviour
     }
 
 
+    public void CloseAcceptWindow()
+    {
+        AcceptMenu.SetActive(false);
+    }
+
     public void ShowAcceptWindow()
     {
         AcceptMenu.SetActive(true);
@@ -201,42 +204,21 @@ public class Shop : MonoBehaviour
 
     void InventoryLoad()
     {
-        if (File.Exists(Application.persistentDataPath + "/SaveData/Inventory.inv"))
+        if (File.Exists(Application.persistentDataPath + "/SaveData/Inventory.json"))
         {
-            using (var inv = File.OpenRead(Application.persistentDataPath + "/SaveData/Inventory.inv"))
-            {
-                var binar = new BinaryFormatter();
-                var _inv = (InventoryLoadClass)binar.Deserialize(inv);
-                inventory = (InventorySkins)_inv.inventory;
-                inv.Close();
-            }
+            string jasonTex = File.ReadAllText(Application.persistentDataPath + "/SaveData/Inventory.json");
+            inventory = JsonUtility.FromJson<InventorySkins>(jasonTex);
         }
         else
         {
+            inventory.skins.Add(UnityEditor.AssetDatabase.LoadAssetAtPath<Skin>("Assets/Skins/Common/Stone.asset"));
             InventorySave();
         }
     }
     void InventorySave()
     {
-        using (var inv = File.Open(Application.persistentDataPath + "/SaveData/Inventory.inv", FileMode.Create))
-        {
-            var binar = new BinaryFormatter();
-            var _inv = new InventoryLoadClass(true);
-            _inv.inventory = inventory;
-            binar.Serialize(inv, _inv);
-            inv.Close();
-        }
-    }
-}
-
-[System.Serializable]
-public class InventoryLoadClass
-{   
-    [SerializeField]
-    public InventorySkins inventory;
-
-    public InventoryLoadClass(bool isNew)
-    {
-        inventory = new InventorySkins();
+        string jsonText = JsonUtility.ToJson(inventory);
+        File.WriteAllText(Application.persistentDataPath + "/SaveData/Inventory.json", "");
+        File.WriteAllText(Application.persistentDataPath + "/SaveData/Inventory.json", jsonText);
     }
 }

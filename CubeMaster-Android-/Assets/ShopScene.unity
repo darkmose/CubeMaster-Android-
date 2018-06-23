@@ -4813,7 +4813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &556148748
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6911,6 +6911,7 @@ GameObject:
   - component: {fileID: 1386411333}
   - component: {fileID: 1386411335}
   - component: {fileID: 1386411334}
+  - component: {fileID: 1386411336}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -6969,6 +6970,36 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1386411332}
+--- !u!114 &1386411336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1386411332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1763962635}
+          m_MethodName: CloseAcceptWindow
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1422749020
 GameObject:
   m_ObjectHideFlags: 0
@@ -7134,15 +7165,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteArray:
-  - {fileID: 21300000, guid: 47fa3b8c1d901334e9e0dd6d6d402d31, type: 3}
-  - {fileID: 21300000, guid: 27a84ce562f52144b8f3b65e4c458f1c, type: 3}
-  - {fileID: 21300000, guid: a57ffad0632682d43b44211f4510c701, type: 3}
+  - {fileID: 21300000, guid: ae51c458f39847940b655f2003a3d310, type: 3}
   normalsArray:
-  - {fileID: 2800000, guid: 438b3d67be9dbd7488a61aa00b0eeabd, type: 3}
-  - {fileID: 2800000, guid: ed15650db437e8f4ca6c5541165fe6f9, type: 3}
-  - {fileID: 2800000, guid: 3f682dc41d412504f8f1cd26ad12fa7f, type: 3}
+  - {fileID: 2800000, guid: ffbfe321970908e48a202ddfc687636c, type: 3}
   skinsHolder: {fileID: 359429261}
-  type: 2
+  type: 0
 --- !u!1 &1458923715
 GameObject:
   m_ObjectHideFlags: 0
@@ -7907,7 +7934,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1763962634}
   - component: {fileID: 1763962635}
-  - component: {fileID: 1763962636}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Untagged
@@ -7944,31 +7970,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0653f94bd4ebf2248a08bb72da38938a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 1763962636}
+  inventory:
+    skins: []
   _camera: {fileID: 159950532}
   invList: {fileID: 1422749021}
   openCase: {fileID: 556148748}
   invMenu: {fileID: 2066574889}
   anim: {fileID: 159950533}
   cube: {fileID: 1112275455}
-  inventorySkins: {fileID: 0}
   prefabContainer: {fileID: 1853647239905814, guid: 6501c136294768b44be49f00ba8674f6,
     type: 2}
   material: {fileID: 2100000, guid: 6a2f3ababb7fd9d4aadc4a09844c4a4a, type: 2}
   GameMaterial: {fileID: 2100000, guid: 4bb6732138c6d4d46b048e1c34bb1e89, type: 2}
   AcceptMenu: {fileID: 1595134288}
---- !u!114 &1763962636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1763962633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15a69450bf07fd248a850cb040f278f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skins: []
 --- !u!1 &1798160586
 GameObject:
   m_ObjectHideFlags: 0
@@ -8520,8 +8534,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: aedc8b663cba00d46ab7cfc0217a3c65, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -8545,7 +8559,7 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.066176474, g: 0.065203294, b: 0.065203294, a: 0.853}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.853}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
 --- !u!1 &2050023953
@@ -8657,8 +8671,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ef04c06722d90384cb254f38a3982780, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

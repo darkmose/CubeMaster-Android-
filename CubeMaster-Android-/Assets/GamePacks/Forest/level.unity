@@ -671,17 +671,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e32cbf4d33cc604d87857df8d7987c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CubeTexture: {fileID: 2800000, guid: ae51c458f39847940b655f2003a3d310, type: 3}
-  CubeNormal: {fileID: 2800000, guid: ffbfe321970908e48a202ddfc687636c, type: 3}
   PlatformNormal: {fileID: 2800000, guid: ffbfe321970908e48a202ddfc687636c, type: 3}
   PlatformsTexture: {fileID: 2800000, guid: f92233727bc601c4cbc0df17b12427d4, type: 3}
   tilingPlatform: {x: 1, y: 1}
-  tilingCube: {x: 1, y: 1}
   PlatformsMaterial:
   - {fileID: 2100000, guid: 04c6e28909d353e4ebfdecca1c82a3eb, type: 2}
   - {fileID: 2100000, guid: 98f5cda64bedf5840aca33d84772b3b3, type: 2}
   - {fileID: 2100000, guid: 03e9113252468534a94d2b0503a9b6db, type: 2}
-  CubeMaterial: {fileID: 2100000, guid: 4bb6732138c6d4d46b048e1c34bb1e89, type: 2}
 --- !u!1 &1237514324
 GameObject:
   m_ObjectHideFlags: 0

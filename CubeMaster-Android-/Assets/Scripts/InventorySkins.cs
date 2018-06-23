@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 [System.Serializable]
-public class InventorySkins : MonoBehaviour
+public class InventorySkins
 {
-    [SerializeField]
+    public InventorySkins()
+    {
+        skins = new List<Skin>();
+    }
+
     public List<Skin> skins;
 }

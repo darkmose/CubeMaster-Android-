@@ -6,9 +6,19 @@ public class SkinCreator : Editor
 {
     public override void OnInspectorGUI()
     {
+        SkinCreate skinCreate = (SkinCreate)target;
+
+        GUILayout.Label("Skins Creator");
+        GUILayout.Space(5);
+        if (GUILayout.Button("Reset Arrays"))
+        {
+            skinCreate.spriteArray = new Sprite[0];
+            skinCreate.normalsArray = new Texture2D[0];
+        }
+        GUILayout.Space(10);
         base.OnInspectorGUI();
 
-        SkinCreate skinCreate = (SkinCreate)target;
+       
 
         GUILayout.Space(20);
 
@@ -36,10 +46,6 @@ public class SkinCreator : Editor
         if (GUILayout.Button("Clear Skins"))
         {
             skinCreate.ClearSkinsNSkinPacks();
-        }
-        if (GUILayout.Button("Clear Inventory"))
-        {
-            skinCreate.ClearInv();
         }
         GUILayout.EndHorizontal();
 
