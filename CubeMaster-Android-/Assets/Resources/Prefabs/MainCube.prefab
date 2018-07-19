@@ -197,10 +197,10 @@ MonoBehaviour:
   isRotate: 0
   mask:
     serializedVersion: 2
-    m_Bits: 4294967291
+    m_Bits: 4294965243
   secondMask:
     serializedVersion: 2
-    m_Bits: 4294967035
+    m_Bits: 4294964987
   groundMask:
     serializedVersion: 2
     m_Bits: 1024

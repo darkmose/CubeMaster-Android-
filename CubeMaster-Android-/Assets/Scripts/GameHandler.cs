@@ -153,6 +153,7 @@ public class GameHandler : MonoBehaviour
     public void ToMainMenu()
     {
         Time.timeScale = 1;
+		SaveManager.coins -= mplevel;
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 

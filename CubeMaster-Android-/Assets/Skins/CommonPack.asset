@@ -14,6 +14,10 @@ MonoBehaviour:
   packName: Newbie
   rarity: Common
   skins:
-  - {fileID: 11400000, guid: 18bc030ad50e3af4ca1508bc293375cc, type: 2}
-  - {fileID: 11400000, guid: 74f12b294fe88dc4b8769d31080ad142, type: 2}
-  - {fileID: 11400000, guid: b4ac8d2bb39410b409fcae1fdad3994d, type: 2}
+  - {fileID: 11400000, guid: 39d7c3bfc99432d439f7590b5d43cbfa, type: 2}
+  - {fileID: 11400000, guid: e9cf328c7d43b254f801ccd0a2dd0fa0, type: 2}
+  - {fileID: 11400000, guid: 743ae04b4d5911742aa9a88c742ce431, type: 2}
+  - {fileID: 11400000, guid: 3f90ca3ed2e6e3945b26b10832aad7a6, type: 2}
+  - {fileID: 11400000, guid: 446f4a535216ffa4e928ebd4e38309e4, type: 2}
+  - {fileID: 11400000, guid: aec91ff5c9241c74ea50fa99bdabfa0d, type: 2}
+  - {fileID: 11400000, guid: abe113e4fe20f944ea62f1e26cd5a6b9, type: 2}

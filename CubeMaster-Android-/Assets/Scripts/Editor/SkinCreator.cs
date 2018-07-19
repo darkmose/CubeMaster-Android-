@@ -27,15 +27,21 @@ public class SkinCreator : Editor
 
         if (GUILayout.Button("Parse Skins"))
         {
-            if (skinCreate.spriteArray.Length != 0)
+            if (!skinCreate.isAutomatic)
             {
-                skinCreate.Parse();
+                if (skinCreate.spriteArray.Length != 0)
+                {
+                    skinCreate.Parse(skinCreate.type);
+                }
+                else
+                {
+                    Debug.Log("Array is empty");
+                }
             }
             else
             {
-                Debug.Log("Array is empty");
-            }
-            
+                skinCreate.AutomaticParse();
+            }            
         }
 
         GUILayout.Space(30);

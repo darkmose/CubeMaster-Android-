@@ -14,6 +14,12 @@ MonoBehaviour:
   packName: Good Stuff
   rarity: Uncommon
   skins:
-  - {fileID: 11400000, guid: 664fd3f83ee060a43a174ecdfb8ad145, type: 2}
-  - {fileID: 11400000, guid: a76cf7c83ce709544af14001b004cb3b, type: 2}
-  - {fileID: 11400000, guid: 3da694b65fe455542910fc57495adb78, type: 2}
+  - {fileID: 11400000, guid: d99814962e80b3e419da2b3634973b93, type: 2}
+  - {fileID: 11400000, guid: e41d0d7eeb80c4843b5f98650ef3c8d2, type: 2}
+  - {fileID: 11400000, guid: 106d8900f1811a74a96d3cfe37e11416, type: 2}
+  - {fileID: 11400000, guid: 348edbe7e050afe41ac3cdf3e17150f8, type: 2}
+  - {fileID: 11400000, guid: 8d588d26bc03a01428fad0f995f0af1b, type: 2}
+  - {fileID: 11400000, guid: f3a99fb4e7f600b449c30ad1a7dabe6f, type: 2}
+  - {fileID: 11400000, guid: 12337d48d9b5e754f9699466ebe45256, type: 2}
+  - {fileID: 11400000, guid: 5c304ddf8a017cb498641f4c96e0bd6c, type: 2}
+  - {fileID: 11400000, guid: d5734a5c523358543b551b7ad40693b9, type: 2}

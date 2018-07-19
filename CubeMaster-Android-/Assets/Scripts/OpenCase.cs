@@ -17,6 +17,7 @@ public class OpenCase : MonoBehaviour
     public CaseHolder result;    
     public SkinsHolder skinHolder;
     bool canClosePrize = false;
+    public Shop shop;
 
     public void StartRoll()
     {
@@ -65,7 +66,7 @@ public class OpenCase : MonoBehaviour
     IEnumerator Prize()
     {
         Skin newSkin = GenerateSkin();
-        FindObjectOfType<Shop>().inventory.skins.Add(newSkin);
+        shop.inventory.skins.Add(newSkin);
 
         GameObject chest = prizePanel.Find("ImageSkin").gameObject;
         chest.GetComponent<Button>().interactable = false;
@@ -108,7 +109,7 @@ public class OpenCase : MonoBehaviour
 
     }
 
-    Skin Randomizer(int index)
+    private Skin Randomizer(int index)
     {
         int count = skinHolder.skinPacks[index].skins.Count;
         return skinHolder.skinPacks[index].skins[Random.Range(0, count - 1)];
@@ -117,6 +118,7 @@ public class OpenCase : MonoBehaviour
     private Skin GenerateSkin()
     {
         Skin skin;
+        
 
         switch (result.rarity)
         {
@@ -132,6 +134,7 @@ public class OpenCase : MonoBehaviour
                 skin = Randomizer(2);
                 return skin;                
         }
+
         return null;        
     }
 

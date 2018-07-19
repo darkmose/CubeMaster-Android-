@@ -12,6 +12,10 @@ TagManager:
   - Level
   - SecondCube
   - Coins
+  - PortalA
+  - PortalB
+  - PortalC
+  - PlatformPoint
   layers:
   - Default
   - TransparentFX

@@ -117,4 +117,23 @@ public class AdvMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
         }
 
     }
+
+
+	void Update(){
+		if (Input.GetKeyUp(KeyCode.Escape)) {
+			if (isOpen) 
+			{
+				Time.timeScale = 1;
+				isOpen = false;
+				AnimatePanel ("Close");
+			} 
+			else 
+			{
+				gear.SetActive(true);
+				isOpen = true;
+				AnimatePanel ("Open");
+				Time.timeScale = 0;
+			}
+		}	
+	}
 }

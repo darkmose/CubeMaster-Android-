@@ -16,11 +16,13 @@ public class Shop : MonoBehaviour
     bool flag = false;
     public GameObject prefabContainer;
     public Material material;
-    public Material GameMaterial;
     public GameObject AcceptMenu;
+    public SkinsHolder skinsHolder;
+    public Skin finishSkin;
 
     void Start()
     {
+        finishSkin = null;
         inventory = new InventorySkins();
         AcceptMenu.SetActive(false);
         invMenu.GetComponent<RectTransform>().localPosition = Vector2.zero;
@@ -29,6 +31,7 @@ public class Shop : MonoBehaviour
         invMenu.SetActive(false);
         invMenu.transform.Find("StartRoll").gameObject.SetActive(false);
         InventoryLoad();
+        SetShopMaterial();
     }
 
     public void Back()
@@ -158,7 +161,8 @@ public class Shop : MonoBehaviour
         {
             GameObject prefab = Instantiate(prefabContainer, invList.GetChild(0));
             prefab.GetComponent<InvContainer>().skin = skin;
-            switch (skin.rarity)
+
+            switch (prefab.GetComponent<InvContainer>().skin.rarity)
             {
                 case Skin.Rarity.Common:
                     prefab.transform.Find("background").GetComponent<Image>().color = new Color32(26, 128, 52, 80);
@@ -177,6 +181,7 @@ public class Shop : MonoBehaviour
         }
     }
 
+    
 
     public void CloseAcceptWindow()
     {
@@ -188,37 +193,108 @@ public class Shop : MonoBehaviour
         AcceptMenu.SetActive(true);
     }
 
-    public void SaveChanges()
+
+
+    Skin TakeSkinFromPacks(Skin.Rarity rarity, string name)
     {
-        GameMaterial.SetTexture("_MainTex", material.GetTexture("_MainTex"));
-        if (material.GetTexture("_BumpMap"))
+        Skin skin;
+        switch (rarity)
         {
-            GameMaterial.SetTexture("_BumpMap", material.GetTexture("_BumpMap"));
+            case Skin.Rarity.Common:
+                skin = skinsHolder.skinPacks[0].skins.Find(x => x.name == name);
+                return skin;
+
+            case Skin.Rarity.Uncommon:
+                skin = skinsHolder.skinPacks[1].skins.Find(x => x.name == name);
+                return skin;
+
+            case Skin.Rarity.Golden:
+                skin = skinsHolder.skinPacks[2].skins.Find(x => x.name == name);
+                return skin;
         }
-        else
-        {
-            GameMaterial.SetTexture("_BumpMap", null);
-        }
-        Back();
+
+        return null;
     }
 
     void InventoryLoad()
     {
         if (File.Exists(Application.persistentDataPath + "/SaveData/Inventory.json"))
         {
-            string jasonTex = File.ReadAllText(Application.persistentDataPath + "/SaveData/Inventory.json");
-            inventory = JsonUtility.FromJson<InventorySkins>(jasonTex);
+            string[] jasonTex = File.ReadAllLines(Application.persistentDataPath + "/SaveData/Inventory.json");
+            for (int i = 0; i < jasonTex.Length;)
+            {
+                Skin.Rarity _rarity = (Skin.Rarity)(System.Convert.ToInt32(jasonTex[i++]));
+                string _name = jasonTex[i++];
+                if (_name == "Stone")
+                {
+                    inventory.skins.Add(Resources.Load<Skin>("Prefabs/Stone"));
+                    continue;
+                }
+                inventory.skins.Add(TakeSkinFromPacks(_rarity, _name));
+            }
         }
         else
         {
-            inventory.skins.Add(UnityEditor.AssetDatabase.LoadAssetAtPath<Skin>("Assets/Skins/Common/Stone.asset"));
+            inventory.skins.Add(Resources.Load<Skin>("Prefabs/Stone"));
             InventorySave();
         }
     }
+
+    public void SaveChanges()
+    {
+        if (finishSkin)
+        {
+            using (var fs = File.Create(Application.persistentDataPath + "/SaveData/" + "skinInfo.sv")) { fs.Close(); }
+            string[] info = new string[2];
+            info[0] = ((int)finishSkin.rarity).ToString();
+            info[1] = finishSkin.name;
+            File.WriteAllLines(Application.persistentDataPath + "/SaveData/" + "skinInfo.sv", info);
+        }
+        Back();
+    }
+
+
+    void SetShopMaterial()
+    {
+        if (File.Exists(Application.persistentDataPath + "/SaveData/" + "skinInfo.sv"))
+        {
+            string[] info = new string[2];
+            info = File.ReadAllLines(Application.persistentDataPath + "/SaveData/" + "skinInfo.sv");
+            Skin.Rarity _rarity = (Skin.Rarity)(System.Convert.ToInt32(info[0]));
+            string _name = info[1];
+
+            if (_name == "Stone")
+            {
+                material.SetTexture("_MainTex", Resources.Load<Skin>("Prefabs/Stone").sprite.texture);
+                material.SetTexture("_BumpMap", Resources.Load<Skin>("Prefabs/Stone").normalSprite);
+                return;
+            }
+
+            Skin skin = TakeSkinFromPacks(_rarity, _name);
+            material.SetTexture("_MainTex", skin.sprite.texture);
+            if (skin.normalSprite)
+            {
+                material.SetTexture("_BumpMap", skin.normalSprite);
+            }
+        }
+        else
+        {
+            material.SetTexture("_MainTex", Resources.Load<Skin>("Prefabs/Stone").sprite.texture);
+            material.SetTexture("_BumpMap", Resources.Load<Skin>("Prefabs/Stone").normalSprite);
+        }
+    }
+
     void InventorySave()
     {
-        string jsonText = JsonUtility.ToJson(inventory);
         File.WriteAllText(Application.persistentDataPath + "/SaveData/Inventory.json", "");
-        File.WriteAllText(Application.persistentDataPath + "/SaveData/Inventory.json", jsonText);
+
+        byte bi = 0;
+        string[] jsonText = new string[inventory.skins.Count * 2];
+        foreach (var item in inventory.skins)
+        {
+            jsonText[bi++] = ((int)item.rarity).ToString();
+            jsonText[bi++] = item.name;
+        }
+        File.WriteAllLines(Application.persistentDataPath + "/SaveData/Inventory.json", jsonText);
     }
 }

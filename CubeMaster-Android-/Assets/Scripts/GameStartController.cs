@@ -162,18 +162,18 @@ public class GameStartController : MonoBehaviour
     public void ChooseLevelNumber()
     {
 
-        int l = chooseLevelNumberPanel.transform.GetChild(0).childCount;
+		int l = chooseLevelNumberPanel.transform.Find("ScrollLevelNumbers").Find("LevelNumbers").childCount;
 
         for (int i = 0; i < l; i++)
         {
-            Destroy(chooseLevelNumberPanel.transform.GetChild(0).GetChild(i).gameObject);
+			Destroy(chooseLevelNumberPanel.transform.Find("ScrollLevelNumbers").Find("LevelNumbers").GetChild(i).gameObject);
         }
 
         for (int k = 0; k < levels[currentLevel].LevelsCount; k++)
         {
             int clevel = (k + 1);
 
-            GameObject number = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Number"), chooseLevelNumberPanel.transform.Find("LevelNumbers"));
+			GameObject number = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Number"), chooseLevelNumberPanel.transform.Find("ScrollLevelNumbers").Find("LevelNumbers"));
             number.transform.GetChild(0).GetComponent<Text>().text = clevel.ToString();
             number.GetComponent<Button>().onClick.RemoveAllListeners();
 

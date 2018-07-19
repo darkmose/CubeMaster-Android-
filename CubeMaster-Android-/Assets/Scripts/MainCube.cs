@@ -28,7 +28,10 @@ public class MainCube : MonoBehaviour
         Orig = Main.transform.rotation;
         game.stars = new Stars();
         screen = GameObject.Find("Main Camera").transform.Find("MainScreen").GetComponentInChildren<ScreenHandler>();
-        CCheck();
+		if (game.loadLevel) {
+			CCheck();
+		}
+
         screen.RefreshTarget(this);
         game.mplevel = 0;
     }
@@ -123,7 +126,7 @@ public class MainCube : MonoBehaviour
 
                 if (Physics.Raycast(ray, out hit, 2, mask))
                 {
-                    if (hit.collider.tag != "Block")
+                    if (hit.collider.tag != "Block" && hit.collider.tag != "PlatformPoint")
                     {
                         Step(_angle, _target, _rotateVector);
                         return;
@@ -148,7 +151,7 @@ public class MainCube : MonoBehaviour
                     ray = new Ray(Main.transform.position, _rayVector);
                     if (Physics.Raycast(ray, out hit, 1, mask))
                     {
-                        if (hit.collider.tag != "Block")
+                        if (hit.collider.tag != "Block" && hit.collider.tag != "PlatformPoint")
                         {
                             Step(_angle, _altTarget, _rotateVector);
                             return;
@@ -161,11 +164,11 @@ public class MainCube : MonoBehaviour
                     }
 
                 }
-                else if (hit.collider.tag != "Block")
+                else if(hit.collider.tag != "Block" && hit.collider.tag != "PlatformPoint")
                 {
                     if (Physics.Raycast(new Ray(Main.transform.Find("SecondCube").position, _rayVector), out hit, 1, secondMask))
                     {
-                        if (hit.collider.tag != "Block")
+                        if (hit.collider.tag != "Block" && hit.collider.tag != "PlatformPoint")
                         {
                             Step(_angle, _target, _rotateVector);
                             return;
@@ -182,7 +185,7 @@ public class MainCube : MonoBehaviour
             {
                 if (Physics.Raycast(new Ray(Main.transform.Find("SecondCube").position, _rayVector), out hit, 1, secondMask))
                 {
-                    if (hit.collider.tag != "Block")
+                    if (hit.collider.tag != "Block" && hit.collider.tag != "PlatformPoint")
                     {
                         Step(_angle, _target, _rotateVector);
                         return;
@@ -257,6 +260,27 @@ public class MainCube : MonoBehaviour
         Move();
     }
 
+    public bool IsVertical()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(Main.transform.position, Vector3.up);
+
+        if (Physics.Raycast(ray, out hit, 1, mask))
+        {
+            if (hit.collider.gameObject.layer == 8)
+            {
+                return true;
+            }              
+            else
+            {
+                return false;
+            }            
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
 }

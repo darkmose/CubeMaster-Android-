@@ -12,7 +12,8 @@ public class InvContainer : MonoBehaviour, IPointerClickHandler
 
     void SetTexture()
     {
-        FindObjectOfType<Shop>().material.SetTexture("_MainTex",skin.sprite.texture);
+        Shop shop = FindObjectOfType<Shop>();
+        shop.material.SetTexture("_MainTex",skin.sprite.texture);
         if (skin.normalSprite)
         {
             FindObjectOfType<Shop>().material.SetTexture("_BumpMap", skin.normalSprite);
@@ -21,5 +22,6 @@ public class InvContainer : MonoBehaviour, IPointerClickHandler
         {
             FindObjectOfType<Shop>().material.SetTexture("_BumpMap", null);
         }
+        shop.finishSkin = skin;
     }
 }
