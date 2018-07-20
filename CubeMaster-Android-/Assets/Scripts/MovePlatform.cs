@@ -11,6 +11,7 @@ public class MovePlatform : MonoBehaviour {
 
 	void Start ()
     {
+        transform.parent.GetComponent<BoxCollider>().enabled = false;
         mainCube = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
         pointToMove = GameObject.FindGameObjectWithTag("PlatformPoint").transform.position;
         startPosition = this.transform.position;

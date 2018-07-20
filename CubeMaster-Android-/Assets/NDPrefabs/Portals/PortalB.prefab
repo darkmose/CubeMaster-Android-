@@ -336,6 +336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19348493fe5a20a4b9689a564df1bb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeParticles: 15
+  timeToTeleport: 7
   portalEffect: {fileID: 1195434038733718}
   targetPlatformToTeleport: {fileID: 0}
 --- !u!136 &136747278447852048

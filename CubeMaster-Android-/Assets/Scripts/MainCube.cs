@@ -228,6 +228,10 @@ public class MainCube : MonoBehaviour
                         game.Win();
                     }
                 }
+                else
+                {
+                    game.RetryLevel();
+                }
             }
         }        
     }

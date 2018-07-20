@@ -32,7 +32,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Cull: 0
-    - _Cutoff: 0.333
+    - _Cutoff: 0.041
     - _Shininess: 0.1
     - _WindQuality: 0
     m_Colors:
