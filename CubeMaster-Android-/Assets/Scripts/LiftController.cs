@@ -8,6 +8,20 @@ public class LiftController : MonoBehaviour {
     public int height = 5;
     bool isBelow = true;
     bool canGo = true;
+    bool retry = false;
+
+    private void Start()
+    {
+        GameHandler gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
+        gameHandler.OnRetryLevel += GameHandler_OnRetryLevel;
+    }
+
+    private void GameHandler_OnRetryLevel(object sender, System.EventArgs e)
+    {
+        StopAllCoroutines();
+        retry = true;
+        LiftDown();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,7 +34,6 @@ public class LiftController : MonoBehaviour {
             }          
         }
     }
-
 
     IEnumerator wait()
     {
@@ -52,7 +65,11 @@ public class LiftController : MonoBehaviour {
         canGo = false;
         mainCube.canMove = false;
 
-        GameObject.Find("MainCube").transform.SetParent(transform);
+        if (!retry)
+        {
+            GameObject.Find("MainCube").transform.SetParent(transform);
+        }
+        
 
 
         while (transform.position != point)
@@ -61,11 +78,11 @@ public class LiftController : MonoBehaviour {
             yield return null;
         }
 
-
         GameObject.Find("MainCube").transform.SetParent(transform.parent.parent);
 
         mainCube.canMove = true;
 
+        retry = false;
         yield return new WaitForSeconds(2);
         canGo = true;
     }

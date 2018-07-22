@@ -18,18 +18,28 @@ public class OpenCase : MonoBehaviour
     public SkinsHolder skinHolder;
     bool canClosePrize = false;
     public Shop shop;
+    public Animator anim;
 
     public void StartRoll()
     {
-        if (!isRoll && !isPrize)
+        if (SaveManager.coins >= 10)
         {
-            GenerateCases();
-            casePanel.position = center.position;
-            speedRoll = (byte)Random.Range(5, 6.5f);
-            velocity = Random.Range(-25f, -28f);
-            isRoll = true;
+            if (!isRoll && !isPrize)
+            {
+                GenerateCases();
+                casePanel.position = center.position;
+                speedRoll = (byte)Random.Range(5, 6.5f);
+                velocity = Random.Range(-25f, -28f);
+                isRoll = true;
+                SaveManager.coins -= 10;
+            }
+        }
+        else
+        {
+            anim.Play("coinsinfoRed");
         }
     }
+
 
     void GenerateCases()
     {

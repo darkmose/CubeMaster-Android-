@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 4872436378550606}
   - component: {fileID: 65794412753983882}
   m_Layer: 0
-  m_Name: MovePlatform
+  m_Name: MovePlatformC
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

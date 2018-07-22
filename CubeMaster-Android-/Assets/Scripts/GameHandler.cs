@@ -144,7 +144,9 @@ public class GameHandler : MonoBehaviour
             _MainCube.transform.rotation = mainCubeScript.Orig;
         }
 
-        if(winScreen.activeSelf) winScreen.SetActive(false);
+        OnRetryLevelEvent();
+
+        if (winScreen.activeSelf) winScreen.SetActive(false);
         advMenu.GetComponent<AdvMenu>().AnimatePanel("Close");
         stars.countCur = 0;
         Time.timeScale = 1;
@@ -166,4 +168,20 @@ public class GameHandler : MonoBehaviour
             gameStart.SaveAllData();
         }
     }
+
+
+
+    public event System.EventHandler OnRetryLevel;
+
+    protected virtual void OnRetryLevelEvent()
+    {
+        if (OnRetryLevel != null)
+        {
+            OnRetryLevel(this, System.EventArgs.Empty);
+        }             
+    }
+
+
+      
+
 }

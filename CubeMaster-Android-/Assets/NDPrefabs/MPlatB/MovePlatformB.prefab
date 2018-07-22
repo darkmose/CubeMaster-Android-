@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 4607647069842092}
   - component: {fileID: 65083170733287938}
   m_Layer: 0
-  m_Name: MovePlatform
+  m_Name: MovePlatformB
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

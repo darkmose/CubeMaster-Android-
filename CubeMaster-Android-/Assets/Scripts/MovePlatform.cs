@@ -15,9 +15,15 @@ public class MovePlatform : MonoBehaviour {
         mainCube = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
         pointToMove = GameObject.FindGameObjectWithTag("PlatformPoint").transform.position;
         startPosition = this.transform.position;
+        GameHandler gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
+        gameHandler.OnRetryLevel += GameHandler_OnRetryLevel;
     }
 
-
+    private void GameHandler_OnRetryLevel(object sender, System.EventArgs e)
+    {
+        StopAllCoroutines();
+        FromPoint();
+    }
 
     IEnumerator Move(Vector3 point)
     {

@@ -20,7 +20,7 @@ public class CameraMove : MonoBehaviour
         try
         {
             Vector3 _target = target.transform.position;
-            _target.y += 3f;
+            _target.y += 3.5f;
             _target.x -= 3f;
             transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * 10);
         }

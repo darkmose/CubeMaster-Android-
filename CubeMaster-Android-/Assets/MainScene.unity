@@ -5667,11 +5667,11 @@ MonoBehaviour:
   levelTypeText: {fileID: 1482910844}
   TypeStartButton: {fileID: 868772938}
   levels:
-  - LevelsCount: 10
+  - LevelsCount: 8
     LevelTypeName: FOREST
     Index: 1
     image: {fileID: 2800000, guid: b09e2e281ba9e55418a7c4d0672d6c50, type: 3}
-  - LevelsCount: 2
+  - LevelsCount: 4
     LevelTypeName: POLY WORLD
     Index: 2
     image: {fileID: 2800000, guid: 6d0d0a36791065648b11ab7cc759a3ed, type: 3}

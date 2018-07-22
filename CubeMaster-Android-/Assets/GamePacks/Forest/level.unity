@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winScreen: {fileID: 202519853}
-  loadLevel: 0
+  loadLevel: 1
   starsPanel: {fileID: 647252240}
   advMenu: {fileID: 1077459224}
   coins: {fileID: 1644401915}
@@ -261,7 +261,7 @@ MonoBehaviour:
   - color: {r: 0.67058825, g: 0.6862745, b: 1, a: 1}
     prefab: {fileID: 1316030115597524, guid: 8983ffef1469ff74ba642d1dcd310666, type: 2}
   - color: {r: 0.36862746, g: 0.31764707, b: 0.27058825, a: 1}
-    prefab: {fileID: 1342523966707720, guid: 9ac78abfeea237c43b6ddc45d6375788, type: 2}
+    prefab: {fileID: 1930517691671726, guid: 9ac78abfeea237c43b6ddc45d6375788, type: 2}
   - color: {r: 0.28235295, g: 0.654902, b: 0.5764706, a: 1}
     prefab: {fileID: 1211184181442846, guid: e5047d679ad2c664eaf7e42b3a88f461, type: 2}
   - color: {r: 0.7019608, g: 0.6862745, b: 0.6666667, a: 1}

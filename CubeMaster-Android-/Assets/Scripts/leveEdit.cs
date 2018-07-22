@@ -45,7 +45,7 @@ public class leveEdit : MonoBehaviour
                         GameObject a = Instantiate<GameObject>(ColPref.prefab, GameObject.Find("NewLevel(Clone)").transform.Find("Ground"));
                         a.transform.localPosition = pos;
 
-                        if ((a.CompareTag("PlatformPoint") || a.CompareTag("Block")) && !a.name.Equals("MovePlatform(Clone)"))
+                        if ((a.CompareTag("PlatformPoint") || a.CompareTag("Block")) && !a.name.Equals("MovePlatformB(Clone)") && !a.name.Equals("MovePlatformC(Clone)"))
                         {
                             a.transform.SetParent(GameObject.Find("NewLevel(Clone)").transform.Find("Blocks"));
                             a.transform.localPosition += transform.up*0.663f;

@@ -14,6 +14,7 @@ MonoBehaviour:
   packName: Lvl.99
   rarity: Golden
   skins:
+  - {fileID: 11400000, guid: 7bf20cd6c23df014898b1626d5c84606, type: 2}
   - {fileID: 11400000, guid: 4b6803fefee294a4ea44891f0726423a, type: 2}
   - {fileID: 11400000, guid: 11e6b0d3d7e9427418b7be9cd4c5555b, type: 2}
   - {fileID: 11400000, guid: 4404d1e7cfc00c6428f956271cf51b50, type: 2}

@@ -18,10 +18,16 @@ public class Shop : MonoBehaviour
     public Material material;
     public GameObject AcceptMenu;
     public SkinsHolder skinsHolder;
+    [HideInInspector]
     public Skin finishSkin;
+    public Text coinsInfo;
+    public GameObject sellPanel;
+    GameObject sellContainer;
+    Skin sellSkin;
 
     void Start()
     {
+        coinsInfo.text = SaveManager.coins.ToString();
         finishSkin = null;
         inventory = new InventorySkins();
         AcceptMenu.SetActive(false);
@@ -32,11 +38,13 @@ public class Shop : MonoBehaviour
         invMenu.transform.Find("StartRoll").gameObject.SetActive(false);
         InventoryLoad();
         SetShopMaterial();
+       
     }
 
     public void Back()
     {
         InventorySave();
+        SaveAllData();
         SceneManager.LoadScene(0);
     }
 
@@ -253,6 +261,12 @@ public class Shop : MonoBehaviour
         Back();
     }
 
+    void SaveAllData()
+    {
+        GameStartController gameStart = new GameStartController();
+        gameStart.SaveAllData();
+    }
+
 
     void SetShopMaterial()
     {
@@ -284,6 +298,39 @@ public class Shop : MonoBehaviour
         }
     }
 
+
+    public void SellSkinPanel(Skin skin, GameObject invContainer)
+    {
+        sellPanel.SetActive(true);
+        sellPanel.transform.GetChild(0).Find("SkinName").GetComponent<Text>().text = skin.name;
+        sellPanel.transform.GetChild(0).Find("price").GetComponent<Text>().text = "For 5 coins";
+        sellSkin = skin;
+        sellContainer = invContainer;
+        invMenu.transform.parent.Find("MyInventory").GetComponent<Button>().interactable = false;
+        invMenu.transform.parent.Find("OpenCase").GetComponent<Button>().interactable = false;
+    }
+
+    public void SellYes()
+    {
+        SaveManager.coins += 5;
+        coinsInfo.text = SaveManager.coins.ToString();
+        inventory.skins.Remove(sellSkin);
+        Destroy(sellContainer);
+        material.SetTexture("_MainTex",Resources.Load<Skin>("Prefabs/Stone").sprite.texture);
+        material.SetTexture("_BumpMap", Resources.Load<Skin>("Prefabs/Stone").normalSprite);
+
+        SellNo();
+    }
+
+    public void SellNo()
+    {
+        sellPanel.SetActive(false);
+        invMenu.transform.parent.Find("MyInventory").GetComponent<Button>().interactable = true;
+        invMenu.transform.parent.Find("OpenCase").GetComponent<Button>().interactable = true;
+        sellSkin = null;
+        sellContainer = null;
+    }
+
     void InventorySave()
     {
         File.WriteAllText(Application.persistentDataPath + "/SaveData/Inventory.json", "");
@@ -296,5 +343,14 @@ public class Shop : MonoBehaviour
             jsonText[bi++] = item.name;
         }
         File.WriteAllLines(Application.persistentDataPath + "/SaveData/Inventory.json", jsonText);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Home))
+        {
+            InventorySave();
+            SaveAllData();
+        }
     }
 }
