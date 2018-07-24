@@ -40,6 +40,7 @@ public class GameStartController : MonoBehaviour
         CheckCreateSaveFiles();
 		
 		coins.text = SaveManager.coins.ToString();
+        FindObjectOfType<AudioManager>().Play("Theme"+Random.Range(1,3).ToString(),true);
     }
 
 
@@ -123,6 +124,9 @@ public class GameStartController : MonoBehaviour
         {
             optionsMenu.transform.Find("Dropdown").GetComponent<Dropdown>().value = PlayerPrefs.GetInt("Quality");
         }
+        optionsMenu.transform.Find("SliderSounds").GetComponent<Slider>().value = FindObjectOfType<AudioManager>().s_volume;
+        optionsMenu.transform.Find("SliderMusic").GetComponent<Slider>().value = FindObjectOfType<AudioManager>().m_volume;
+
         mainMenu.SetActive(false);
     }
 
@@ -142,6 +146,10 @@ public class GameStartController : MonoBehaviour
             if (optionsMenu.activeSelf)
             {
                 PlayerPrefs.SetInt("Quality", optionsMenu.transform.Find("Dropdown").GetComponent<Dropdown>().value);
+                FindObjectOfType<AudioManager>().RefreshVolume(
+                    optionsMenu.transform.Find("SliderSounds").GetComponent<Slider>().value,
+                    optionsMenu.transform.Find("SliderMusic").GetComponent<Slider>().value);                    
+
                 optionsMenu.SetActive(false);
                 mainMenu.SetActive(true);
             }

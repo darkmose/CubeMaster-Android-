@@ -27,6 +27,7 @@ public class Shop : MonoBehaviour
 
     void Start()
     {
+        FindObjectOfType<AudioManager>().Play("Theme3", true);
         coinsInfo.text = SaveManager.coins.ToString();
         finishSkin = null;
         inventory = new InventorySkins();
