@@ -3,6 +3,7 @@ using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 public class SkinCreate : MonoBehaviour
 {
     [SerializeField]
@@ -43,7 +44,7 @@ public class SkinCreate : MonoBehaviour
 
     public void AutomaticParse()
     {
-        #region paths //Initialize paths
+#region paths //Initialize paths
         string[] pathsTexture = new string[3];
         pathsTexture[0] = "Assets/OtherTextures/SkinsTex/Common/Tex";
         pathsTexture[1] = "Assets/OtherTextures/SkinsTex/Uncommon/Tex";
@@ -52,7 +53,7 @@ public class SkinCreate : MonoBehaviour
         pathsNormals[0] = "Assets/OtherTextures/SkinsTex/Common/Normals";
         pathsNormals[1] = "Assets/OtherTextures/SkinsTex/Uncommon/Normals";
         pathsNormals[2] = "Assets/OtherTextures/SkinsTex/Golden/Normals";
-        #endregion 
+#endregion
 
         for (int i = 0; i < 3; i++)
         {

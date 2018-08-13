@@ -30,6 +30,7 @@ public class OpenCase : MonoBehaviour
                 casePanel.position = center.position;
                 speedRoll = (byte)Random.Range(5, 6.5f);
                 velocity = Random.Range(-25f, -28f);
+                StartCoroutine(Sound(velocity/speedRoll));
                 isRoll = true;
                 SaveManager.coins -= 10;
             }
@@ -70,6 +71,17 @@ public class OpenCase : MonoBehaviour
             _case.GetComponent<CaseHolder>().rarity = (CaseHolder.Rarity)cases[index].rarity;
             _case.GetComponent<CaseHolder>().sprite = cases[index].caseSprite;
             _case.GetComponent<CaseHolder>().spriteOp = cases[index].caseSpriteOpen;
+        }
+    }
+
+    IEnumerator Sound(float vel)
+    {
+        while(vel > 0)
+        {
+            shop.Sound("Roll");
+            float t = 2 / Mathf.Abs(velocity);
+            vel -= t;
+            yield return new WaitForSeconds(t);
         }
     }
 
@@ -180,6 +192,7 @@ public class OpenCase : MonoBehaviour
     {
         if (isRoll)
         {
+            
             velocity = Mathf.MoveTowards(velocity, 0, Time.deltaTime * speedRoll);
             casePanel.transform.Translate(new Vector2(velocity, 0) * Time.deltaTime / 5);
             if (velocity == 0)
@@ -192,6 +205,7 @@ public class OpenCase : MonoBehaviour
                     if (hit.collider.tag == "Finish")
                     {
                         result = hit.collider.GetComponent<CaseHolder>();
+                        StopAllCoroutines();
                         ShowPrizePanel();
                     }
                     else

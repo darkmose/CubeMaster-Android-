@@ -13,37 +13,50 @@ public class GameHandler : MonoBehaviour
     public GameObject advMenu;
     public Text coins;
     public byte mplevel;
+    public string soundTheme;
+    AudioManager audioManager;
+    MetaInfo meta;
+   
+
+    private void Awake()
+    {        
+        audioManager = FindObjectOfType<AudioManager>();
+        meta = new MetaInfo();
+    }
+
+    public void Sound(string name)
+    {
+        audioManager.Play(name, AudioManager.sType.sound);
+    }
 
     private void Start()
-    {
-
+    {       
         coins.text = SaveManager.coins.ToString();
-
         if (loadLevel)
         {
-            string level = LevelManager.currentIndexLocation.ToString() +"-"+ LevelManager.currentLevel.ToString();
+            string level = LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString();
             LoadPrefabOnLevel(level);
-        }
+        }    
         advMenu.SetActive(true);
+        audioManager.Play(soundTheme, AudioManager.sType.music);
     }
 
     void Coins()
     {
-       CoinSaver CoinsSaver = new CoinSaver();
-       CoinsSaver.SaveCoins();
+        meta.SaveCoins();
     }
 
     void NextCoinMap()
     {
-        CoinSaver CoinsSaver = new CoinSaver();
-        CoinsSaver.CheckCreateCoinsFiles(LevelManager.currentLevel, LevelManager.currentIndexLocation);
+        meta.CheckCreateCoinsFiles(LevelManager.currentLevel, LevelManager.currentIndexLocation);
     }
 
     public void LoadPrefabOnLevel(string prefabName)
     {
         try
-        {
-            Instantiate(Resources.Load<GameObject>("LevelPrefabs/" + prefabName));
+        {            
+            Instantiate(Resources.Load<GameObject>("LevelPrefabs/"+ prefabName));
+            Destroy(GameObject.Find("LoadScreen"));
         }
         catch (System.NullReferenceException)
         {
@@ -57,6 +70,10 @@ public class GameHandler : MonoBehaviour
 
     public void NextLevel()
     {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject.FindGameObjectWithTag("End").transform.Find("WinPart").GetChild(i).gameObject.SetActive(false);
+        }
         advMenu.SetActive(true);
         advMenu.GetComponent<AdvMenu>().lvlName.text = advMenu.GetComponent<AdvMenu>().Name;
         GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>().StopAllCoroutines();
@@ -163,9 +180,8 @@ public class GameHandler : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            GameStartController gameStart = new GameStartController();
             SaveManager.coins -= mplevel;
-            gameStart.SaveAllData();
+            meta.SaveData();
         }
     }
 
@@ -179,9 +195,6 @@ public class GameHandler : MonoBehaviour
         {
             OnRetryLevel(this, System.EventArgs.Empty);
         }             
-    }
-
-
-      
+    }      
 
 }

@@ -21,7 +21,9 @@ namespace UnityStandardAssets.ImageEffects
 
         override protected void Start()
         {
+#pragma warning disable CS0618 // Тип или член устарел
             if (!SystemInfo.supportsRenderTextures)
+#pragma warning restore CS0618 // Тип или член устарел
             {
                 enabled = false;
                 return;

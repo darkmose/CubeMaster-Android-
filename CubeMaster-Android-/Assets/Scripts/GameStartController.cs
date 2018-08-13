@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
-using System.IO;
 
 public class GameStartController : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class GameStartController : MonoBehaviour
     public GameObject chooseLevelNumberPanel;
     public GameObject optionsMenu;
     public GameObject levelCube;
+    public GameObject blackScreen;
     public Text levelTypeText;
     public Button TypeStartButton;
     private Material cube;
@@ -21,75 +20,34 @@ public class GameStartController : MonoBehaviour
     public LeveChooseHandler[] levels = new LeveChooseHandler[4];
     public Texture2D defaultNull;
     public GameObject mainCube;
-    public CoinSaver Csaver;
     public int MaxLevels = 12;
-    SaveData save;
-    string path;
     public int countLocations = 4;
-	public Text coins;
+    public Text coins;
+    AudioManager audioManager;
     
+    MetaInfo meta;
 
     private void Start()
     {
-		
+        audioManager = FindObjectOfType<AudioManager>();
+        meta = new MetaInfo(countLocations,MaxLevels);
+
         if (PlayerPrefs.HasKey("Quality"))
         {
             QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"), false);
         }
-        CheckCreateDir();
-        CheckCreateSaveFiles();
 		
 		coins.text = SaveManager.coins.ToString();
-        FindObjectOfType<AudioManager>().Play("Theme"+Random.Range(1,3).ToString(),true);
+        int e = Random.Range(1, 3);
+        audioManager.Play("Theme" + e.ToString(), AudioManager.sType.music);
+        DontDestroyOnLoad(blackScreen);
     }
 
 
-    void CheckCreateDir()
+    public void Sound(string name)
     {
-        if (!Directory.Exists(Application.persistentDataPath + "/SaveData/"))
-        {
-            Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/");
-        }
-        path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
-    }
-    void CheckCreateSaveFiles()
-    {
-        if (File.Exists(path))
-        {
-            if (SaveManager.canReadWrite)
-            {
-                using (FileStream fs = File.Open(path, FileMode.Open))
-                {
-                    BinaryFormatter binary = new BinaryFormatter();
-                    save = (SaveData)binary.Deserialize(fs);
-                    SaveManager.IndexOfMaxAviableLocation = save.IndexOfMaxAviableLocation;
-                    SaveManager.MaxAviableLevelOnLocation = save.MaxAviableLevelOnLocation;
-                    SaveManager.scorePerLevels = save.scorePerLevels;
-                    SaveManager.coins = save.coins;
-                    fs.Close();
-                    SaveManager.canReadWrite = false;
-                }
-            }
-        }
-        else if (SaveManager.canReadWrite)
-        {
-            save = new SaveData(countLocations, MaxLevels)
-            {
-                IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation,
-                MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation,
-                scorePerLevels = SaveManager.scorePerLevels,
-                coins = SaveManager.coins
-            };
-
-            using (FileStream fs = File.Open(path, FileMode.CreateNew))
-            {
-                BinaryFormatter binary = new BinaryFormatter();
-                binary.Serialize(fs, save);
-                fs.Close();
-                SaveManager.canReadWrite = false;
-            }
-        }
-    }
+        audioManager.Play(name, AudioManager.sType.sound);
+    }    
 
     public void StartGame(int _сlevel, int indexScene, string name, int countLevels)
     {
@@ -97,7 +55,8 @@ public class GameStartController : MonoBehaviour
         LevelManager.currentLevel = _сlevel;
         LevelManager.currentIndexLocation = indexScene;
         LevelManager.currentLevelName = name;
-        Csaver.CheckCreateCoinsFiles(_сlevel, indexScene);        
+        meta.CheckCreateCoinsFiles(_сlevel, indexScene);
+        blackScreen.SetActive(true);
         SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
     }
 
@@ -185,9 +144,10 @@ public class GameStartController : MonoBehaviour
             number.transform.GetChild(0).GetComponent<Text>().text = clevel.ToString();
             number.GetComponent<Button>().onClick.RemoveAllListeners();
 
-            
 
+            number.GetComponent<Button>().onClick.AddListener(() => Sound("Click"));
             number.GetComponent<Button>().onClick.AddListener(delegate () { StartGame(clevel, levels[currentLevel].Index, levels[currentLevel].LevelTypeName, levels[currentLevel].LevelsCount); });
+            
 
             if (SaveManager.scorePerLevels[levels[currentLevel].Index, clevel] != 0)
             {
@@ -203,14 +163,14 @@ public class GameStartController : MonoBehaviour
             }
         }
         chooseLevelNumberPanel.transform.Find("levelName").GetComponent<Text>().text = levels[currentLevel].LevelTypeName;
-        {
-            chooseLevelTypeMenu.transform.Find("CubeLevel").gameObject.SetActive(false);
-            chooseLevelTypeMenu.transform.Find("Prev").gameObject.SetActive(false);
-            chooseLevelTypeMenu.transform.Find("Next").gameObject.SetActive(false);
-            chooseLevelTypeMenu.transform.Find("Start").gameObject.SetActive(false);
-            chooseLevelTypeMenu.transform.Find("Text").gameObject.SetActive(false);
-            chooseLevelNumberPanel.SetActive(true);
-        }
+       
+        chooseLevelTypeMenu.transform.Find("CubeLevel").gameObject.SetActive(false);
+        chooseLevelTypeMenu.transform.Find("Prev").gameObject.SetActive(false);
+        chooseLevelTypeMenu.transform.Find("Next").gameObject.SetActive(false);
+        chooseLevelTypeMenu.transform.Find("Start").gameObject.SetActive(false);
+        chooseLevelTypeMenu.transform.Find("Text").gameObject.SetActive(false);
+        chooseLevelNumberPanel.SetActive(true);
+        
     }
 
     void Back()
@@ -223,31 +183,10 @@ public class GameStartController : MonoBehaviour
             }
             else
             {
-                SaveAllData();
+                meta.SaveData();
                 Application.Quit();
             }
         }
-    }
-    
-    public void SaveAllData()
-    {
-        path = Application.persistentDataPath + "/SaveData/" + "saveData.sv";
-        
-        save = new SaveData
-        {
-            IndexOfMaxAviableLocation = SaveManager.IndexOfMaxAviableLocation,
-            MaxAviableLevelOnLocation = SaveManager.MaxAviableLevelOnLocation,
-            scorePerLevels = SaveManager.scorePerLevels,
-            coins = SaveManager.coins
-        };
-
-        using (FileStream fs = File.Open(path, FileMode.Create))
-        {
-            BinaryFormatter binary = new BinaryFormatter();
-            binary.Serialize(fs, save);
-            fs.Close();
-        }
-        SaveManager.canReadWrite = true;
     }
 
     IEnumerator RotateY(Quaternion angle)
@@ -361,7 +300,7 @@ public class GameStartController : MonoBehaviour
         Back();
         if (Input.GetKeyUp(KeyCode.Home))
         {
-            SaveAllData();
+            meta.SaveData();
         }
     }
 

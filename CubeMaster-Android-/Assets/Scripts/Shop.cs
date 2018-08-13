@@ -25,9 +25,20 @@ public class Shop : MonoBehaviour
     GameObject sellContainer;
     Skin sellSkin;
 
+    public AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
+
+    public void Sound(string name)
+    {
+        audioManager.Play(name, AudioManager.sType.sound);
+    }
+
     void Start()
     {
-        FindObjectOfType<AudioManager>().Play("Theme3", true);
         coinsInfo.text = SaveManager.coins.ToString();
         finishSkin = null;
         inventory = new InventorySkins();
@@ -38,8 +49,7 @@ public class Shop : MonoBehaviour
         invMenu.SetActive(false);
         invMenu.transform.Find("StartRoll").gameObject.SetActive(false);
         InventoryLoad();
-        SetShopMaterial();
-       
+        SetShopMaterial();       
     }
 
     public void Back()
@@ -264,8 +274,8 @@ public class Shop : MonoBehaviour
 
     void SaveAllData()
     {
-        GameStartController gameStart = new GameStartController();
-        gameStart.SaveAllData();
+        MetaInfo meta = new MetaInfo();
+        meta.SaveData();
     }
 
 

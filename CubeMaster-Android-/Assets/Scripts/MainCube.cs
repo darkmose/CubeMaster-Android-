@@ -253,11 +253,14 @@ public class MainCube : MonoBehaviour
             Main.transform.rotation = Quaternion.RotateTowards(Main.transform.rotation, rotate, Time.deltaTime * speed * 90);
             yield return new WaitForFixedUpdate();
         }
-        
+
+        game.Sound("Step" + Random.Range(1, 4).ToString());
         CheckEnd();
         game.stars.ComputeCurr();
         isRotate = false;
     }
+
+
 
     private void Update()
     {

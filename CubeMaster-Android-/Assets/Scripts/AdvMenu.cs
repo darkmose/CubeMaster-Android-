@@ -37,6 +37,8 @@ public class AdvMenu : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 
         //share.onClick.AddListener(delegate {  })
         retry.onClick.AddListener(delegate { game.RetryLevel(); });
+        retry.onClick.AddListener(delegate { game.Sound("Click"); });
+        toMain.onClick.AddListener(delegate { game.Sound("Click"); });
         toMain.onClick.AddListener(delegate { game.ToMainMenu(); });
     }
 

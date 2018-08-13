@@ -10,23 +10,3 @@ public static class LevelManager
 
     public static List<SerializableVector> coinMaps = null;
 }
-
-
-[System.Serializable]
-public class CoinsData
-{
-    public List<SerializableVector> coinMaps;
-
-    public CoinsData() { }
-
-    public CoinsData(bool isNew)
-    {
-        coinMaps = new List<SerializableVector>();
-    }
-}
-
-[System.Serializable]
-public class SerializableVector
-{
-    public float x, z;    
-}
