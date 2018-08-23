@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -16,12 +15,17 @@ public class GameHandler : MonoBehaviour
     public string soundTheme;
     AudioManager audioManager;
     MetaInfo meta;
+
+    AdverManager ad;
+
+    byte countToAd = 0;
    
 
     private void Awake()
     {        
         audioManager = FindObjectOfType<AudioManager>();
         meta = new MetaInfo();
+        ad = new AdverManager(true);
     }
 
     public void Sound(string name)
@@ -36,6 +40,7 @@ public class GameHandler : MonoBehaviour
         {
             string level = LevelManager.currentIndexLocation.ToString() + "-" + LevelManager.currentLevel.ToString();
             LoadPrefabOnLevel(level);
+            Destroy(GameObject.Find("LoadScreen"));
         }    
         advMenu.SetActive(true);
         audioManager.Play(soundTheme, AudioManager.sType.music);
@@ -55,8 +60,7 @@ public class GameHandler : MonoBehaviour
     {
         try
         {            
-            Instantiate(Resources.Load<GameObject>("LevelPrefabs/"+ prefabName));
-            Destroy(GameObject.Find("LoadScreen"));
+            Instantiate(Resources.Load<GameObject>("LevelPrefabs/"+ prefabName));            
         }
         catch (System.NullReferenceException)
         {
@@ -146,6 +150,7 @@ public class GameHandler : MonoBehaviour
 
     public void RetryLevel()
     {
+        countToAd++;
         MainCube mainCubeScript = GameObject.FindGameObjectWithTag("MainCube").GetComponent<MainCube>();
         GameObject _MainCube = GameObject.FindGameObjectWithTag("MainCube");
 
@@ -165,8 +170,17 @@ public class GameHandler : MonoBehaviour
 
         if (winScreen.activeSelf) winScreen.SetActive(false);
         advMenu.GetComponent<AdvMenu>().AnimatePanel("Close");
+
         stars.countCur = 0;
         Time.timeScale = 1;
+        if (countToAd == 3)
+        {
+            countToAd = 0;
+            if (ad.IsSupported)
+            {
+                ad.GetAd();
+            }            
+        }
     }
 
     public void ToMainMenu()

@@ -10,6 +10,14 @@ public class LiftController : MonoBehaviour {
     bool canGo = true;
     bool retry = false;
 
+    new AudioSource audio;
+
+
+    private void Awake()
+    {
+        audio = gameObject.GetComponent<AudioSource>();
+    }
+
     private void Start()
     {
         GameHandler gameHandler = GameObject.Find("GameHandler").GetComponent<GameHandler>();
@@ -64,6 +72,7 @@ public class LiftController : MonoBehaviour {
     {
         canGo = false;
         mainCube.canMove = false;
+        audio.Play();
 
         if (!retry)
         {
@@ -81,7 +90,7 @@ public class LiftController : MonoBehaviour {
         GameObject.Find("MainCube").transform.SetParent(transform.parent.parent);
 
         mainCube.canMove = true;
-
+        audio.Stop();
         retry = false;
         yield return new WaitForSeconds(2);
         canGo = true;

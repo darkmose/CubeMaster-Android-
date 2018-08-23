@@ -19,9 +19,7 @@ public class CameraMove : MonoBehaviour
     {
         try
         {
-            Vector3 _target = target.transform.position;
-            _target.y += 3.5f;
-            _target.x -= 3f;
+            Vector3 _target = new Vector3(target.transform.position.x - 3f, transform.position.y, target.transform.position.z);                
             transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * 10);
         }
         catch (MissingReferenceException)

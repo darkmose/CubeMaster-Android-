@@ -56,18 +56,18 @@ LightmapSettings:
   m_LightmapEditorSettings:
     serializedVersion: 9
     m_Resolution: 2
-    m_BakeResolution: 512
-    m_TextureWidth: 1024
+    m_BakeResolution: 300
+    m_TextureWidth: 512
     m_TextureHeight: 1024
     m_AO: 0
     m_AOMaxDistance: 56.08
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0.96
     m_Padding: 2
-    m_LightmapParameters: {fileID: 15201, guid: 0000000000000000f000000000000000,
+    m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000,
       type: 0}
     m_LightmapsBakeMode: 0
-    m_TextureCompression: 0
+    m_TextureCompression: 1
     m_FinalGather: 0
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
@@ -525,7 +525,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 20
+  far clip plane: 24
   field of view: 92
   orthographic: 0
   orthographic size: 5
@@ -551,7 +551,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1016575804}
   m_LocalRotation: {x: 0.2546742, y: 0.66067, z: -0.25839192, w: 0.6571833}
-  m_LocalPosition: {x: -7.7, y: 4.53, z: 0.01}
+  m_LocalPosition: {x: -7.717, y: 8.18, z: -2.606}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 109106228}
@@ -783,7 +783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1146866725
 Transform:
   m_ObjectHideFlags: 0
@@ -1047,6 +1047,11 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: -0.11000061
+      objectReference: {fileID: 0}
+    - target: {fileID: 224895964289996150, guid: a3e79f369c3784847972dacf5d1ec5bb,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.2599945
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3e79f369c3784847972dacf5d1ec5bb, type: 2}

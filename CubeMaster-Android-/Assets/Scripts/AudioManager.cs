@@ -35,6 +35,10 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+        {
+            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/");
+        }
 
 
         string path = Application.persistentDataPath + "/SaveData/Configuration.sv";

@@ -24,11 +24,13 @@ public class GameStartController : MonoBehaviour
     public int countLocations = 4;
     public Text coins;
     AudioManager audioManager;
-    
+
+    AdverManager ad;
     MetaInfo meta;
 
     private void Start()
     {
+        ad = new AdverManager(true);
         audioManager = FindObjectOfType<AudioManager>();
         meta = new MetaInfo(countLocations,MaxLevels);
 
@@ -58,6 +60,15 @@ public class GameStartController : MonoBehaviour
         meta.CheckCreateCoinsFiles(_сlevel, indexScene);
         blackScreen.SetActive(true);
         SceneManager.LoadScene(indexScene, LoadSceneMode.Single);
+    }
+
+    public void AdvGetCoins()
+    {
+        if (ad.IsSupported)
+        {
+            ad.ShowRewardedVideo();
+            ad.onEndAd = () => { coins.text = SaveManager.coins.ToString(); }; 
+        }        
     }
 
     public void SkinsShop()

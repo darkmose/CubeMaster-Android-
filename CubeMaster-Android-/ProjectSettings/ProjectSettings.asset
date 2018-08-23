@@ -48,7 +48,7 @@ PlayerSettings:
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 0
   m_MTRendering: 1
-  m_StackTraceTypes: 010000000100000001000000010000000100000001000000
+  m_StackTraceTypes: 000000000000000000000000000000000000000001000000
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: 2
   tizenShowActivityIndicatorOnLoading: -1
@@ -162,8 +162,8 @@ PlayerSettings:
     Standalone: com.LonelyGamers.CubeMaster
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 25
-  AndroidTargetSdkVersion: 25
+  AndroidMinSdkVersion: 21
+  AndroidTargetSdkVersion: 26
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -244,8 +244,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: C:/Users/darkmose/Documents/GitHub/CubeMaster-Android-/CubeMaster-Android-/user.keystore
+  AndroidKeyaliasName: asd
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
   AndroidEnableTango: 0
@@ -261,7 +261,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: ef04c06722d90384cb254f38a3982780, type: 3}
+      m_Icon: {fileID: 2800000, guid: 28f1a1c92ec85e44dbef3e9e871fd685, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
@@ -656,7 +656,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 57d20473-399b-4d98-a9ba-869765160b52
-  projectName: New
+  projectName: Cube Master
   organizationId: darkmose
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

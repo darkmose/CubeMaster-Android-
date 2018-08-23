@@ -90,6 +90,8 @@ public class OpenCase : MonoBehaviour
         Skin newSkin = GenerateSkin();
         shop.inventory.skins.Add(newSkin);
 
+        AudioSource audio = prizePanel.GetComponent<AudioSource>();
+
         GameObject chest = prizePanel.Find("ImageSkin").gameObject;
         chest.GetComponent<Button>().interactable = false;
         Vector2 pos = chest.transform.localPosition;
@@ -102,6 +104,7 @@ public class OpenCase : MonoBehaviour
         }
         chest.transform.localPosition = pos;
         chest.GetComponent<Image>().sprite = result.spriteOp;
+        audio.Play();
         
 
         yield return new WaitForSeconds(1);
@@ -191,8 +194,7 @@ public class OpenCase : MonoBehaviour
     void Update()
     {
         if (isRoll)
-        {
-            
+        {            
             velocity = Mathf.MoveTowards(velocity, 0, Time.deltaTime * speedRoll);
             casePanel.transform.Translate(new Vector2(velocity, 0) * Time.deltaTime / 5);
             if (velocity == 0)

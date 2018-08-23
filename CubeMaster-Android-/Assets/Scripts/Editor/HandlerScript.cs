@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class HandlerScript
 {
-    [MenuItem("AssetBundle/CreateAll")]
+    [MenuItem("AssetBundle/CreateAndroid")]
     static void CreateAssetBundle()
     {
         if (!System.IO.Directory.Exists(Application.streamingAssetsPath + "/Assets/"))

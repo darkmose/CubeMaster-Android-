@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, IDragHandler
+public class ScreenHandler : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
 
     MainCube cubeScript;
@@ -18,6 +18,7 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
     private void Start()
     {
         mainCamera = Camera.main.gameObject;
+        mainCamera.transform.position = new Vector3(1, 5.6f, 1);
     }
 
     public void RefreshTarget(MainCube script)
@@ -25,6 +26,7 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
         cubeScript = null;
         cubeScript = script;
     }
+
 
     void Zoom()
     {
@@ -38,13 +40,12 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
                 distance = Vector2.Distance(finger1, finger2);
             }
 
-            zoomDelta = Vector2.Distance(finger1, finger2) - distance;
+            zoomDelta = -1*(Vector2.Distance(finger1, finger2) - distance);
             Vector3 target = new Vector3(
                 mainCamera.transform.position.x , 
-                Mathf.MoveTowards(transform.position.y, transform.position.y + zoomDelta, Time.deltaTime*5) , 
+                Mathf.MoveTowards(transform.position.y, transform.position.y + zoomDelta, Time.deltaTime*2) , 
                 mainCamera.transform.position.z);
-            target.y = Mathf.Clamp(target.y, 2.5f, 5);
-
+            target.y = Mathf.Clamp(target.y, 3.12f, 8.18f);
             mainCamera.transform.position = target;
 
             distance = Vector2.Distance(finger1, finger2);
@@ -60,6 +61,7 @@ public class ScreenHandler : MonoBehaviour,IBeginDragHandler,IEndDragHandler, ID
     {
         Zoom();
     }
+    
 
     public void OnBeginDrag(PointerEventData eventData)
     {

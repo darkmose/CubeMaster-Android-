@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Portal : MonoBehaviour {
@@ -13,8 +12,15 @@ public class Portal : MonoBehaviour {
 	public GameObject targetPlatformToTeleport;
 	bool canTeleport = true; 
 	MainCube main;
+    new AudioSource audio;
+    
 
-	void Start()
+    private void Awake()
+    {
+        audio = gameObject.GetComponent<AudioSource>();
+    }
+
+    void Start()
 	{
 		main = FindObjectOfType<MainCube> ();
 		GameObject[] objs = GameObject.FindGameObjectsWithTag (this.gameObject.tag);
@@ -81,6 +87,7 @@ public class Portal : MonoBehaviour {
 	void StartRotateParticles(float __time)
 	{
 		_time = __time;
+        audio.Play();
 	}
 	void StartTimerWait(float __time)
 	{
